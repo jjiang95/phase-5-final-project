@@ -1,0 +1,11 @@
+/db/*.sqlite3
+/db/*.sqlite3-*
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/.bundle
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+.byebug_history
