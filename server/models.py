@@ -12,4 +12,4 @@ class User(db.Model):
     created = db.Column(db.DateTime, default=db.func.now())
 
     def __repr__(self):
-        return f'User: {self.username}'
+        return f'User: {self.username} | Created: {self.created}'
