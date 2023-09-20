@@ -1,4 +1,6 @@
-from flask import Flask, request, make_response, session
+import os
+
+from flask import Flask, request, make_response, jsonify, session
 from flask_restful import Api, Resource
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -20,11 +22,15 @@ api = Api(app)
 class Home(Resource):
 
     def get(self):
-        response = {'message': 'Home'}
+        data = User.query.all()
+        response = make_response(
+            [item.to_dict() for item in data], 
+            200
+        )
 
         return response
     
-api.add_resource(Home, '/')
+api.add_resource(Home, '/home')
     
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

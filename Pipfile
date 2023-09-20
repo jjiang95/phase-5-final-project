@@ -12,6 +12,8 @@ flask-sqlalchemy = "3.0.2"
 sqlalchemy = "1.4.42"
 sqlalchemy-serializer = "1.4.1"
 flask-restful = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
