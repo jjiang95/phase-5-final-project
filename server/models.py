@@ -6,14 +6,16 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
     
-    serialize_rules = ('-posts.user',)
+    serialize_rules = ('-posts.user', '-prompts.user', '+favorites.post', '-favorites.user',)
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     _password = db.Column(db.String, nullable=False)
     created = db.Column(db.DateTime, default=db.func.now())
     admin = db.Column(db.Boolean, nullable=False, default=False)
 
+    prompts = db.relationship('Prompt', backref='user')
     posts = db.relationship('Post', backref='user')
+    favorites = db.relationship('Favorite', backref='user')
 
     @hybrid_property
     def password(self):
@@ -41,5 +43,24 @@ class Post(db.Model, SerializerMixin):
     content = db.Column(db.String(600), nullable=False)
     likes = db.Column(db.Integer, default=0, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    prompt_id = db.Column(db.Integer, db.ForeignKey('prompts.id'))
     created = db.Column(db.DateTime, default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+
+class Prompt(db.Model, SerializerMixin):
+    __tablename__ = 'prompts'
+
+    serialize_rules = ('-posts.user',)
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(150), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created = db.Column(db.DateTime, default=db.func.now())
+    
+    posts = db.relationship('Post', backref='prompt')
+
+class Favorite(db.Model, SerializerMixin):
+    __tablename__ = 'favorites'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)    
