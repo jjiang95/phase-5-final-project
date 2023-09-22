@@ -9,3 +9,8 @@
 !/tmp/pids/
 !/tmp/pids/.keep
 .byebug_history
+.env
+.venv
+*.db
+*/*.db
+server/migrations/versions/*.py

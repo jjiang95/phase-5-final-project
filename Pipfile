@@ -14,6 +14,8 @@ sqlalchemy-serializer = "1.4.1"
 flask-restful = "*"
 gunicorn = "*"
 psycopg2-binary = "*"
+flask-bcrypt = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
