@@ -13,7 +13,11 @@ function Home() {
     return (
         <div>
             {data.map((item => (
+                <>
                 <h1 key={item.id}>{item.username}</h1>
+                <p key={item.id}>{item.posts[0]['content']}</p>
+                <span key={item.id}>{item.posts[0]['created']}</span>
+                </>
             )))}
         </div>
     )
