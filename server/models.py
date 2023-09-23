@@ -6,7 +6,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
     
-    serialize_rules = ('-posts.user', '-prompts.user', '+favorites.post', '-favorites.user',)
+    serialize_rules = ('-_password', '-prompts.user', '-posts.user',)
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     _password = db.Column(db.String, nullable=False)
@@ -39,6 +39,7 @@ class User(db.Model, SerializerMixin):
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
 
+    serialize_rules = ('-user', '-prompt',)
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(600), nullable=False)
     likes = db.Column(db.Integer, default=0, nullable=False)
@@ -50,7 +51,7 @@ class Post(db.Model, SerializerMixin):
 class Prompt(db.Model, SerializerMixin):
     __tablename__ = 'prompts'
 
-    serialize_rules = ('-posts.user',)
+    serialize_rules = ('-posts.prompt', '-user')
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -60,7 +61,7 @@ class Prompt(db.Model, SerializerMixin):
 
 class Favorite(db.Model, SerializerMixin):
     __tablename__ = 'favorites'
-
+    serialize_rules = ('-user',)
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)    
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)

@@ -1,12 +1,12 @@
 from flask import request, make_response, jsonify, session
 from flask_restful import Resource
 from config import app, db, api
-from models import User
+from models import User, Prompt, Post, Favorite
 
 class Home(Resource):
 
     def get(self):
-        data = User.query.all()
+        data = Favorite.query.all()
         response = make_response(
             [item.to_dict() for item in data], 
             200

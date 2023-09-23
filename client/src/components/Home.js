@@ -7,17 +7,16 @@ function Home() {
     useEffect(() => {
         fetch('/home')
         .then((r) => r.json())
-        .then(data => setData(data))
+        .then(data => {
+            console.log(data)
+            setData(data)
+        })
     }, [])
 
     return (
         <div>
             {data.map((item => (
-                <>
-                <h1 key={item.id}>{item.username}</h1>
-                <p key={item.id}>{item.posts[0]['content']}</p>
-                <span key={item.id}>{item.posts[0]['created']}</span>
-                </>
+              <h1 key={item.id}>{item.id}</h1>
             )))}
         </div>
     )
