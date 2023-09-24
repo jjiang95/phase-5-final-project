@@ -9,7 +9,7 @@ class User(db.Model, SerializerMixin):
     serialize_rules = ('-_password', '-prompts.user', '-posts.user',)
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    _password = db.Column(db.String, nullable=False)
+    _password = db.Column(db.String(20), nullable=False)
     created = db.Column(db.DateTime, default=db.func.now())
     admin = db.Column(db.Boolean, nullable=False, default=False)
 
