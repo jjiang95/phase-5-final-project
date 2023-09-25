@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import * as yup from 'yup';
 
-function Signup() {
-
+function Signup({ handleLogin }) {
+    const history = useHistory()
     const [errorState, setErrorState] = useState('')
 
     const formSchema = yup.object().shape({
@@ -29,12 +30,13 @@ function Signup() {
             }).then((res) => {
                 if (res.status === 201) {
                     setErrorState('Success')
+                    handleLogin(res)
                 } else if (res.status === 400) {
                     setErrorState('Username already taken')
                 } else if (res.status === 422) {
                     setErrorState('Invalid inputs')
                 }
-            })
+            }).then(history.push('/'))
         },   
     });
     return (

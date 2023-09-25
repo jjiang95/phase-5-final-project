@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 function Home() {
-
     const [prompts, setPrompts] = useState([])
     
     useEffect(() => {
-        fetch('/all-prompts')
+        fetch('/prompts/all')
         .then((r) => r.json())
         .then(prompts => {
-            console.log(prompts)
             setPrompts(prompts)
         })
     }, [])
@@ -16,9 +14,9 @@ function Home() {
     return (
         <>
             {prompts.map((item => (
-            <div className='prompt-card'>
-              <h1 key={item.id}>{item.content}</h1>
-              <p key={item.id}>{item.created}</p>
+            <div className='prompt-card' key={item.id}>
+              <h1>{item.content}</h1>
+              <p>{item.created}</p>
             </div>
             )))}
         </>

@@ -34,9 +34,33 @@ class Signup(Resource):
                 return {'errors': 'username already taken'}, 400
         else:
             return {'errors':'unprocessable entity'}, 422
+        
+class CheckSession(Resource):
+    pass
+
+class Login(Resource):
+    pass
     
-api.add_resource(AllPrompts, '/all-prompts')
+class Logout(Resource):
+    pass
+
+class PostByID(Resource):
+    pass
+
+class PromptByID(Resource):
+    pass
+
+class User(Resource):
+    pass
+
+api.add_resource(CheckSession, '/check_session')
+api.add_resource(AllPrompts, '/prompts/all')
 api.add_resource(Signup, '/signup')
+api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout')
+api.add_resource(PostByID, '/posts/<int:id>')
+api.add_resource(PromptByID, '/prompts/<int:id>')
+api.add_resource(User, '/users/<string:username>')
     
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
