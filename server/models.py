@@ -32,9 +32,6 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(
             self._password, p.encode('utf-8')
         )
-
-    def __repr__(self):
-        return f'User: {self.username} | Created: {self.created}'
     
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'

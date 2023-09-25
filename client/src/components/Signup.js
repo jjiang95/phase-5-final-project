@@ -30,13 +30,15 @@ function Signup({ handleLogin }) {
             }).then((res) => {
                 if (res.status === 201) {
                     setErrorState('Success')
-                    handleLogin(res)
+                    console.log(res)
+                    // handleLogin(res)
+                    // history.push('/')
                 } else if (res.status === 400) {
                     setErrorState('Username already taken')
                 } else if (res.status === 422) {
                     setErrorState('Invalid inputs')
                 }
-            }).then(history.push('/'))
+            });
         },   
     });
     return (
