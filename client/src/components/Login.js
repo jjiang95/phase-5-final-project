@@ -3,39 +3,35 @@ import { useFormik } from 'formik';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import * as yup from 'yup';
 
-function Signup({ handleLogin, user }) {
+function Login({ handleLogin, user }) {
     const history = useHistory()
     const [errorState, setErrorState] = useState('')
 
     const formSchema = yup.object().shape({
         username: yup.string().required("Must enter a username").max(20),
         password: yup.string().required("Must enter a password").max(20),
-        confirmation: yup.string().required("Must confirm password").max(20),
     });
 
     const formik = useFormik({
         initialValues: {
             username: '',
             password: '',
-            confirmation: '',
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            fetch('/signup', {
+            fetch('/login', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(values, null, 2),
             }).then((res) => {
-                if (res.status === 201) {
+                if (res.status === 200) {
                     setErrorState('Success')
                     handleLogin(res)
-                } else if (res.status === 400) {
-                    setErrorState('Username already taken')
-                } else if (res.status === 422) {
-                    setErrorState('Invalid inputs')
-                }
+                } else if (res.status === 401) {
+                    setErrorState('Invalid username/password')
+                } 
             });
         },   
     });
@@ -47,7 +43,7 @@ function Signup({ handleLogin, user }) {
     } 
     return (
         <>
-            <h1>Create Account</h1>
+            <h1>Login</h1>
             <form onSubmit={formik.handleSubmit}>
                 <p>{errorState}</p>
                 <label htmlFor='username'>Username:</label>
@@ -58,14 +54,10 @@ function Signup({ handleLogin, user }) {
                 <br/>
                 <input id='password' name='password' onChange={formik.handleChange} value={formik.values.password}/>
                 <p style={{ color: "red"}}>{formik.errors.password}</p>
-                <label htmlFor='confirmation'>Confirm Password:</label>
-                <br/>
-                <input id='confirmation' name='confirmation' onChange={formik.handleChange} value={formik.values.confirmation}/>
-                <p style={{ color: "red"}}>{formik.errors.confirmation}</p>
                 <button type='submit'>Submit</button>
             </form>
         </>
     )
 }
 
-export default Signup
+export default Login
