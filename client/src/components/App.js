@@ -1,30 +1,47 @@
 import { Route, Switch } from 'react-router-dom/cjs/react-router-dom.min';
 import React, { useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Home from './Home'
 import Signup from './Signup'
 import Login from './Login'
 
 function App() {
-
+  const history = useHistory()
   const [user, setUser] = useState(null)
 
   useEffect(() => {
     fetch("/check_session")
-    .then((res) => {
-      if (res.ok) {
-        res.json().then((user) => setUser(user))
+    .then((r) => {
+      if (r.status == 200) {
+        r.json()
+        .then((user) => setUser(user))
       }
     });
-  }, [])
+  }, []);
 
   function handleLogin(user) {
     setUser(user)
   }
 
+  function handleLoginClick() {
+    history.push('/login')
+  }
+
+  function handleLogoutClick() {
+    fetch("/logout", {
+      method: "DELETE"
+    })
+    .then((r) => {
+      if (r.ok) {
+      setUser(null)
+      }
+    });
+  }
+
   return (
     <div className="App">
       <h2>{ user ? `Hello, ${user.username}` : `Welcome!`}</h2>
-      <button>{ user ? 'Logout' : 'Login'}</button>
+      <button onClick={user ? handleLogoutClick : handleLoginClick}>{ user ? 'Logout' : 'Login'}</button>
       { user ? null : <button>Signup</button>}
       <Switch>
         <Route exact path='/'>

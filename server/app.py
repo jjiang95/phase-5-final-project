@@ -38,12 +38,11 @@ class Signup(Resource):
 class CheckSession(Resource):
     def get(self):
         
-        user_id = session['user_id']
-        if user_id:
-            user = User.query.filter(User.id == user_id).first()
+        if session.get('user_id') == None:
+            return {}, 204
+        else:
+            user = User.query.filter(User.id == session.get('user_id')).first()
             return user.to_dict(), 200
-        
-        return {}, 204
 
 class Login(Resource):
     def post(self):
@@ -56,7 +55,9 @@ class Login(Resource):
         return {'errors':'invalid username/password'}, 401
     
 class Logout(Resource):
-    pass
+    def delete(self):
+        session.pop('user_id', default=None)
+        return {'message': 'successfully logged out'}, 204
 
 class PostByID(Resource):
     pass
