@@ -63,7 +63,12 @@ class PostByID(Resource):
     pass
 
 class PromptByID(Resource):
-    pass
+    def get(self, id):
+        prompt = Prompt.query.filter_by(id=id).first()
+        if prompt:
+            return prompt.to_dict(), 200
+        else:
+            return {'errors': 'user not found'}, 404
 
 class UserByUsername(Resource):
     def get(self, username):

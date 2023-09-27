@@ -46,6 +46,8 @@ function App() {
   return (
     <div className="App">
       <h2>{ user ? `Hello, ${user.username}` : `Welcome!`}</h2>
+      <button onClick={() => {history.push('/')}}>Home</button>
+      { user ? <button onClick={() => {history.push(`/users/${user.username}`)}}>Profile</button> : null}
       <button onClick={user ? handleLogoutClick : handleLoginClick}>{ user ? 'Logout' : 'Login'}</button>
       { user ? null : <button onClick={handleSignupClick}>Signup</button>}
       <Switch>
@@ -60,6 +62,9 @@ function App() {
         </Route>
         <Route exact path='/users/:username'>
           <UserPage user={user}/>
+        </Route>
+        <Route exact path='/*'>
+          <h1>404 -- Not Found</h1>
         </Route>
       </Switch>
     </div>

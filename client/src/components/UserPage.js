@@ -32,6 +32,19 @@ function UserPage({ user }) {
         <>
             <h1>{profile.username}</h1>
             <p>Joined on: {profile.created}</p>
+            {profile.admin === true ? 
+                <h2>Prompts</h2>
+                // profile.prompts.map((prompt => (
+                //     <div className='prompt' key={prompt.id}>
+                //         <p>{prompt.content}</p>
+                //         <span>Created: {prompt.created}</span>
+                //         <br/>
+                //         { user && user.username === profile.username ? <button>Edit</button> : null}
+                //         { user && user.username === profile.username ? <button>Delete</button> : null}
+                //     </div>
+                // )))
+                : null
+            }
             <h2>Posts</h2>
             {profile.posts.map((post => (
                 <div className='post' key={post.id}>
