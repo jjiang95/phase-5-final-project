@@ -1,5 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import { useHistory, useParams } from "react-router-dom";
+import Post from './Post';
+import Prompt from './Prompt';
 
 function UserPage({ user }) {
     
@@ -32,29 +34,14 @@ function UserPage({ user }) {
         <>
             <h1>{profile.username}</h1>
             <p>Joined on: {profile.created}</p>
-            {profile.admin === true ? 
-                <h2>Prompts</h2>
-                // profile.prompts.map((prompt => (
-                //     <div className='prompt' key={prompt.id}>
-                //         <p>{prompt.content}</p>
-                //         <span>Created: {prompt.created}</span>
-                //         <br/>
-                //         { user && user.username === profile.username ? <button>Edit</button> : null}
-                //         { user && user.username === profile.username ? <button>Delete</button> : null}
-                //     </div>
-                // )))
-                : null
-            }
+            {profile.admin ? <h2>Prompts</h2> : null}
+            {profile.admin ? profile.prompts.map((prompt) => (
+                <Prompt key={prompt.id} prompt={prompt}/>
+            )) : null}
+
             <h2>Posts</h2>
             {profile.posts.map((post => (
-                <div className='post' key={post.id}>
-                    <p>{post.content}</p>
-                    <span>Likes: {post.likes} </span>
-                    <span>Created: {post.created}</span>
-                    <br/>
-                    { user && user.username === profile.username ? <button>Edit</button> : null}
-                    { user && user.username === profile.username ? <button>Delete</button> : null}
-                </div>
+                <Post key={post.id} post={post} user={user} profile={profile}/>
             )))}
         </>
     )

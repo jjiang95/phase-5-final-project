@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Prompt from './Prompt';
 
 function Home() {
     const [prompts, setPrompts] = useState([])
@@ -13,11 +14,8 @@ function Home() {
 
     return (
         <>
-            {prompts.map((item => (
-            <div className='prompt-card' key={item.id}>
-              <h1>{item.content}</h1>
-              <p>{item.created}</p>
-            </div>
+            {prompts.map((prompt => (
+                <Prompt key={prompt.id} prompt={prompt}/>
             )))}
         </>
     )
