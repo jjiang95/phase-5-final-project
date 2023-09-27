@@ -9,10 +9,10 @@ if __name__ == '__main__':
         Prompt.query.delete()
         Favorite.query.delete()
 
-        user1 = User(username='xijiang', admin=True)
-        user1.password = '123456'
-        user2 = User(username='jjiang95')
-        user2.password = '12345678'
+        user1 = User(username='jasmine', admin=True)
+        user1.password = 'asdf'
+        user2 = User(username='john123')
+        user2.password = '123456'
 
         post1 = Post(content='Mary had a little lamb', user_id=1, prompt_id=2)
         post2 = Post(content="Baa baa black sheep", user_id=2, prompt_id=1)

@@ -12,7 +12,6 @@ class AllPrompts(Resource):
             [item.to_dict() for item in data], 
             200
         )
-
         return response
 
 class Signup(Resource):
@@ -31,7 +30,7 @@ class Signup(Resource):
                 return new_user.to_dict(), 201
             except IntegrityError as e:
                 db.session.rollback()
-                return {'errors': 'username already taken'}, 400
+                return {'errors':'username already taken'}, 400
         else:
             return {'errors':'unprocessable entity'}, 422
         
@@ -57,7 +56,7 @@ class Login(Resource):
 class Logout(Resource):
     def delete(self):
         session.pop('user_id', default=None)
-        return {'message': 'successfully logged out'}, 204
+        return {'message':'successfully logged out'}, 204
 
 class PostByID(Resource):
     pass

@@ -31,6 +31,8 @@ function Signup({ handleLogin, user }) {
                 if (res.status === 201) {
                     setErrorState('Success')
                     handleLogin(res)
+                    history.push('/')
+                    window.location.reload(false)
                 } else if (res.status === 400) {
                     setErrorState('Username already taken')
                 } else if (res.status === 422) {

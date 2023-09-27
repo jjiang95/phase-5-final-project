@@ -13,7 +13,7 @@ function App() {
   useEffect(() => {
     fetch("/check_session")
     .then((r) => {
-      if (r.status == 200) {
+      if (r.status === 200) {
         r.json()
         .then((user) => setUser(user))
       }

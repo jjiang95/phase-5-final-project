@@ -29,6 +29,8 @@ function Login({ handleLogin, user }) {
                 if (res.status === 200) {
                     setErrorState('Success')
                     handleLogin(res)
+                    history.push('/')
+                    window.location.reload(false)
                 } else if (res.status === 401) {
                     setErrorState('Invalid username/password')
                 } 
