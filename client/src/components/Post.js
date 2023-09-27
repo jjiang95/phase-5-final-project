@@ -5,7 +5,8 @@ function Post({ post, user }) {
         <div className='post' key={post.id}>
             <p>{post.content}</p>
             <span>Likes: {post.likes} </span>
-            <span>Created: {post.created}</span>
+            <br/>
+            <span>Posted by {post.user.username} on {post.created}</span>
             <br/>
             { user && user.id === post.user_id ? <button>Edit</button> : null}
             { user && user.id === post.user_id ? <button>Delete</button> : null}

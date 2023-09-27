@@ -40,7 +40,7 @@ class User(db.Model, SerializerMixin):
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
 
-    serialize_rules = ('-favorited_by_users', '-user', '-prompt')
+    serialize_rules = ('-favorited_by_users', '-user.posts', '-user.prompts', '-user.favorite_posts', '-prompt')
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(600), nullable=False)
     likes = db.Column(db.Integer, default=0, nullable=False)
@@ -54,7 +54,7 @@ class Post(db.Model, SerializerMixin):
 class Prompt(db.Model, SerializerMixin):
     __tablename__ = 'prompts'
 
-    serialize_rules = ('-posts.prompt', '-user.prompts', '-user.posts')
+    serialize_rules = ('-posts.prompt', '-user.prompts', '-user.posts', '-user.favorite_posts')
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

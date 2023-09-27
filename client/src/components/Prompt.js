@@ -1,10 +1,18 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 
 function Prompt({ prompt, user }) {
+
+    const history = useHistory()
+
+    function onPromptClick() {
+        history.push(`/prompts/${prompt.id}`)
+    }
     return (
         <div className='prompt' key={prompt.id}>
-            <h1>{prompt.content}</h1>
-            <p>{prompt.created}</p>
+            <h1 onClick={onPromptClick}>{prompt.content}</h1>
+            <span>Created by {prompt.user.username} on {prompt.created}</span>
+            <br/>
             { user && user.id === prompt.user_id ? <button>Edit</button> : null}
             { user && user.id === prompt.user_id ? <button>Delete</button> : null}        
         </div>
