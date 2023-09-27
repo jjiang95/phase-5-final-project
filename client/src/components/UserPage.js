@@ -14,8 +14,8 @@ function UserPage({ user }) {
         .then(res => {
             if (res.status === 200) {
                 res.json()
-                .then((user) => {
-                    setProfile(user)
+                .then((profile) => {
+                    setProfile(profile)
                 })
             } else {
                 res.json()

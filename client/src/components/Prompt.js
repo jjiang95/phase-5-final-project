@@ -11,10 +11,10 @@ function Prompt({ prompt, user }) {
     return (
         <div className='prompt' key={prompt.id}>
             <h1 onClick={onPromptClick}>{prompt.content}</h1>
-            <span>Created by {prompt.user.username} on {prompt.created}</span>
+            <span>Created {prompt.user ? `by ${prompt.user.username}` : ''} on {prompt.created}</span>
             <br/>
             { user && user.id === prompt.user_id ? <button>Edit</button> : null}
-            { user && user.id === prompt.user_id ? <button>Delete</button> : null}        
+            { user && user.id === prompt.user_id ? <button>Delete</button> : null}   
         </div>
     )
 }

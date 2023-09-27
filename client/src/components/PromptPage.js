@@ -8,6 +8,7 @@ function PromptPage({ user }) {
     const params = useParams()
     const [prompt, setPrompt] = useState(null)
     const [notFound, setNotFound] = useState('')
+    const [newPost, setNewPost] = useState('')
 
     useEffect(() => {
         fetch(`/prompts/${params.id}`)
@@ -24,6 +25,14 @@ function PromptPage({ user }) {
         });
     }, [params.id]);
 
+    function handleSubmit(e) {
+        e.preventDefault()
+    }
+
+    function handleChange(e) {
+        setNewPost(e.target.value)
+    }
+
     if (!prompt) {
         return (
             <h1>{ notFound ? notFound : ''}</h1>
@@ -34,6 +43,10 @@ function PromptPage({ user }) {
     return (
         <>
             <Prompt prompt={prompt} user={user}/>
+            <form onSubmit={handleSubmit} className="new-post">
+                <input type='text' name='post' value={newPost} onChange={handleChange}/>
+                <button type='submit'>Post</button>
+            </form>
             {prompt.posts.map((post) => (
                 <Post key={post.id} user={user} post={post}/>
             ))}
