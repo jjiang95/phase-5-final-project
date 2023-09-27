@@ -54,7 +54,7 @@ class Post(db.Model, SerializerMixin):
 class Prompt(db.Model, SerializerMixin):
     __tablename__ = 'prompts'
 
-    serialize_rules = ('-posts.prompt', '-user.prompts', '-user.posts', '-user_id')
+    serialize_rules = ('-posts.prompt', '-user.prompts', '-user.posts')
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

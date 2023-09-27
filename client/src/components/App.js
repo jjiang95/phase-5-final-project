@@ -1,10 +1,11 @@
 import { Route, Switch } from 'react-router-dom/cjs/react-router-dom.min';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import Home from './Home'
-import Signup from './Signup'
-import Login from './Login'
-import UserPage from './UserPage'
+import Home from './Home';
+import Signup from './Signup';
+import Login from './Login';
+import UserPage from './UserPage';
+import PromptPage from './PromptPage';
 
 function App() {
   const history = useHistory()
@@ -52,7 +53,7 @@ function App() {
       { user ? null : <button onClick={handleSignupClick}>Signup</button>}
       <Switch>
         <Route exact path='/'>
-          <Home/>          
+          <Home user={user}/>          
         </Route>
         <Route exact path='/signup'>
           <Signup user={user} handleLogin={handleLogin}/>
@@ -62,6 +63,9 @@ function App() {
         </Route>
         <Route exact path='/users/:username'>
           <UserPage user={user}/>
+        </Route>
+        <Route exact path='/prompts/:id'>
+          <PromptPage user={user}/>
         </Route>
         <Route exact path='/*'>
           <h1>404 -- Not Found</h1>

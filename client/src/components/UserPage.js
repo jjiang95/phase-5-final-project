@@ -36,7 +36,7 @@ function UserPage({ user }) {
             <p>Joined on: {profile.created}</p>
             {profile.admin ? <h2>Prompts</h2> : null}
             {profile.admin ? profile.prompts.map((prompt) => (
-                <Prompt key={prompt.id} prompt={prompt}/>
+                <Prompt key={prompt.id} prompt={prompt} user={user}/>
             )) : null}
 
             <h2>Posts</h2>

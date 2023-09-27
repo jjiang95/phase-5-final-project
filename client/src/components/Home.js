@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Prompt from './Prompt';
 
-function Home() {
+function Home({ user }) {
     const [prompts, setPrompts] = useState([])
     
     useEffect(() => {
@@ -15,7 +15,7 @@ function Home() {
     return (
         <>
             {prompts.map((prompt => (
-                <Prompt key={prompt.id} prompt={prompt}/>
+                <Prompt key={prompt.id} prompt={prompt} user={user}/>
             )))}
         </>
     )
