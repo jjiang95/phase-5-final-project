@@ -1,7 +1,7 @@
 from flask import request, make_response, request, jsonify, session
 from flask_restful import Resource
 from config import app, db, api
-from models import User, Prompt, Post, Favorite
+from models import User, Prompt, Post
 from sqlalchemy.exc import IntegrityError
 
 class AllPrompts(Resource):
@@ -59,7 +59,12 @@ class Logout(Resource):
         return {'message':'successfully logged out'}, 204
 
 class PostByID(Resource):
-    pass
+    def get(self, id):
+        post = Post.query.filter_by(id=id).first()
+        if post:
+            return post.to_dict(), 200
+        else:
+            return {'errors': 'prompt not found'}, 404
 
 class PromptByID(Resource):
     def get(self, id):
@@ -67,7 +72,7 @@ class PromptByID(Resource):
         if prompt:
             return prompt.to_dict(), 200
         else:
-            return {'errors': 'user not found'}, 404
+            return {'errors': 'prompt not found'}, 404
 
 class UserByUsername(Resource):
     def get(self, username):

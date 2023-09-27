@@ -3,10 +3,15 @@ from sqlalchemy.ext.hybrid import hybrid_property
 
 from config import db, bcrypt
 
+favorite = db.Table('favorite',
+                        db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+                        db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
+                    )
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
     
-    serialize_rules = ('-_password', '-prompts.user', '-posts.user',)
+    serialize_rules = ('-favorites', '-_password', '-prompts.user', '-prompts.posts', '-posts.user',)
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     _password = db.Column(db.String(20), nullable=False)
@@ -15,7 +20,6 @@ class User(db.Model, SerializerMixin):
 
     prompts = db.relationship('Prompt', backref='user')
     posts = db.relationship('Post', backref='user')
-    favorites = db.relationship('Favorite', backref='user')
 
     @hybrid_property
     def password(self):
@@ -36,7 +40,7 @@ class User(db.Model, SerializerMixin):
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
 
-    serialize_rules = ('-user', '-prompt',)
+    serialize_rules = ('-favorited_by_users', '-user', '-prompt')
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(600), nullable=False)
     likes = db.Column(db.Integer, default=0, nullable=False)
@@ -45,20 +49,15 @@ class Post(db.Model, SerializerMixin):
     created = db.Column(db.DateTime, default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
+    favorited_by_users = db.relationship('User', secondary=favorite, backref='favorite_posts')
+
 class Prompt(db.Model, SerializerMixin):
     __tablename__ = 'prompts'
 
-    serialize_rules = ('-posts.prompt', '-user')
+    serialize_rules = ('-posts.prompt', '-user.prompts', '-user.posts', '-user_id')
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     created = db.Column(db.DateTime, default=db.func.now())
     
     posts = db.relationship('Post', backref='prompt')
-
-class Favorite(db.Model, SerializerMixin):
-    __tablename__ = 'favorites'
-    serialize_rules = ('-user',)
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)

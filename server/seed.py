@@ -1,5 +1,5 @@
 from app import app
-from models import User, Post, Prompt, Favorite
+from models import User, Post, Prompt
 from config import db
 
 if __name__ == '__main__':
@@ -7,7 +7,6 @@ if __name__ == '__main__':
         User.query.delete()
         Post.query.delete()
         Prompt.query.delete()
-        Favorite.query.delete()
 
         user1 = User(username='jasmine', admin=True)
         user1.password = 'asdf'
@@ -20,15 +19,9 @@ if __name__ == '__main__':
         prompt1 = Prompt(content="IDK, write whatever", user_id=1)
         prompt2 = Prompt(content="Write something cool", user_id=1)
 
-        favorite1 = Favorite(user_id=2, post_id=1)
-        favorite2 = Favorite(user_id=1, post_id=2)
-
-        db.session.add(user1)
-        db.session.add(user2)
-        db.session.add(post1)
-        db.session.add(post2)
-        db.session.add(prompt1)
-        db.session.add(prompt2)
-        db.session.add(favorite1)
-        db.session.add(favorite2)
+        user1.favorites.append(post1)
+        user1.favorites.append(post2)
+        db.session.add_all([user1, user2])
+        db.session.add_all([post1, post2])
+        db.session.add_all([prompt1, prompt2])
         db.session.commit()
