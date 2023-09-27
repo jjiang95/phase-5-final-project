@@ -66,7 +66,12 @@ class PromptByID(Resource):
     pass
 
 class UserByUsername(Resource):
-    pass
+    def get(self, username):
+        user = User.query.filter_by(username=username).first()
+        if user:
+            return user.to_dict(), 200
+        else:
+            return {'errors': 'user not found'}, 404
 
 api.add_resource(CheckSession, '/check_session')
 api.add_resource(AllPrompts, '/prompts/all')

@@ -42,7 +42,7 @@ function Signup({ handleLogin, user }) {
 
     if (user) {
         return (
-            <h1>You're already signed in.</h1>
+            <h1>Already logged in.</h1>
         )
     } 
     return (

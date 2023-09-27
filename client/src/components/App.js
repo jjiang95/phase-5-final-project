@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Home from './Home'
 import Signup from './Signup'
 import Login from './Login'
+import UserPage from './UserPage'
 
 function App() {
   const history = useHistory()
@@ -27,6 +28,10 @@ function App() {
     history.push('/login')
   }
 
+  function handleSignupClick() {
+    history.push('/signup')
+  }
+
   function handleLogoutClick() {
     fetch("/logout", {
       method: "DELETE"
@@ -42,7 +47,7 @@ function App() {
     <div className="App">
       <h2>{ user ? `Hello, ${user.username}` : `Welcome!`}</h2>
       <button onClick={user ? handleLogoutClick : handleLoginClick}>{ user ? 'Logout' : 'Login'}</button>
-      { user ? null : <button>Signup</button>}
+      { user ? null : <button onClick={handleSignupClick}>Signup</button>}
       <Switch>
         <Route exact path='/'>
           <Home/>          
@@ -52,6 +57,9 @@ function App() {
         </Route>
         <Route exact path='/login'>
           <Login user={user} handleLogin={handleLogin}/>
+        </Route>
+        <Route exact path='/users/:username'>
+          <UserPage user={user}/>
         </Route>
       </Switch>
     </div>
