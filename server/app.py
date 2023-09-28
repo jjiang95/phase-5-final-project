@@ -39,9 +39,8 @@ class CheckSession(Resource):
         
         if session.get('user_id') == None:
             return {}, 204
-        else:
-            user = User.query.filter(User.id == session.get('user_id')).first()
-            return user.to_dict(), 200
+        user = User.query.filter(User.id == session.get('user_id')).first()
+        return user.to_dict(), 200
 
 class Login(Resource):
     def post(self):
@@ -57,6 +56,24 @@ class Logout(Resource):
     def delete(self):
         session.pop('user_id', default=None)
         return {'message':'successfully logged out'}, 204
+
+class Posts(Resource):
+    
+    def post(self):
+        if session.get('user_id') == None:
+            return {'errors':'unauthorized'}, 401
+        content = request.get_json()['content']
+        if content and len(content) <= 600:
+            new_post = Post(
+            content=content,
+            user_id=request.get_json()['user_id'],
+            prompt_id=request.get_json()['prompt_id']
+            )
+            db.session.add(new_post)
+            db.session.commit()
+            return new_post.to_dict(), 201
+        else:
+            return {'errors':'unprocessable entity'}, 422
 
 class PostByID(Resource):
     def get(self, id):
@@ -87,6 +104,7 @@ api.add_resource(AllPrompts, '/prompts/all')
 api.add_resource(Signup, '/signup')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
+api.add_resource(Posts, '/posts')
 api.add_resource(PostByID, '/posts/<int:id>')
 api.add_resource(PromptByID, '/prompts/<int:id>')
 api.add_resource(UserByUsername, '/users/<string:username>')

@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Post from './Post';
 import Prompt from './Prompt';
 
@@ -10,7 +10,7 @@ function UserPage({ user }) {
     const [notFound, setNotFound] = useState('')
     
     useEffect(() => {
-        fetch(`http://127.0.0.1:5555/users/${params.username}`)
+        fetch(`/users/${params.username}`)
         .then(res => {
             if (res.status === 200) {
                 res.json()

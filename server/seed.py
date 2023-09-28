@@ -19,8 +19,8 @@ if __name__ == '__main__':
         prompt1 = Prompt(content="IDK, write whatever", user_id=1)
         prompt2 = Prompt(content="Write something cool", user_id=1)
 
-        user1.favorites.append(post1)
-        user1.favorites.append(post2)
+        user1.favorite_posts.append(post1)
+        user1.favorite_posts.append(post2)
         db.session.add_all([user1, user2])
         db.session.add_all([post1, post2])
         db.session.add_all([prompt1, prompt2])

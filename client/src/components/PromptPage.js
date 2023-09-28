@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Post from './Post';
 import Prompt from './Prompt';
 
@@ -9,10 +9,10 @@ function PromptPage({ user }) {
     const [prompt, setPrompt] = useState(null)
     const [posts, setPosts] = useState(null)
     const [notFound, setNotFound] = useState('')
-    const [newPost, setNewPost] = useState('')
+    const [body, setBody] = useState('')
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:5555/prompts/${params.id}`)
+        fetch(`/prompts/${params.id}`)
         .then(res => {
             if (res.status === 200) {
                 res.json()
@@ -29,10 +29,30 @@ function PromptPage({ user }) {
 
     function handleSubmit(e) {
         e.preventDefault()
+        fetch(`/posts`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                content: body,
+                user_id: user.id,
+                prompt_id: prompt.id
+            }),
+        })
+        .then((res) => {
+            if (res.status === 201) {
+                res.json()
+                .then((newPost) => {
+                    setPosts([...posts, newPost])
+                    setBody('')
+                })
+            }
+        });
     }
 
     function handleChange(e) {
-        setNewPost(e.target.value)
+        setBody(e.target.value)
     }
 
     if (!prompt) {
@@ -45,10 +65,10 @@ function PromptPage({ user }) {
     return (
         <>
             <Prompt prompt={prompt} user={user}/>
-            <form onSubmit={handleSubmit} className="new-post">
-                <input type='text' name='post' value={newPost} onChange={handleChange}/>
+            { user ? <form onSubmit={handleSubmit} className="new-post">
+                <input type='text' name='post' value={body} onChange={handleChange}/>
                 <button type='submit'>Post</button>
-            </form>
+            </form> : null}
             {posts.map((post) => (
                 <Post key={post.id} user={user} post={post}/>
             ))}

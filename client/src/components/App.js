@@ -12,12 +12,12 @@ function App() {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5555/check_session`)
+    fetch(`/check_session`)
     .then((r) => {
       if (r.status === 200) {
         r.json()
         .then((user) => setUser(user))
-      }
+      } 
     });
   }, []);
 
@@ -34,7 +34,7 @@ function App() {
   }
 
   function handleLogoutClick() {
-    fetch(`http://127.0.0.1:5555/logout`, {
+    fetch(`/logout`, {
       method: "DELETE"
     })
     .then((r) => {

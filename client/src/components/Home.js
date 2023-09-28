@@ -5,7 +5,7 @@ function Home({ user }) {
     const [prompts, setPrompts] = useState([])
     
     useEffect(() => {
-        fetch(`http://127.0.0.1:5555/prompts/all`)
+        fetch(`/prompts/all`)
         .then((r) => r.json())
         .then(prompts => {
             setPrompts(prompts)
