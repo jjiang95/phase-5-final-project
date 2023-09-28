@@ -97,7 +97,25 @@ class PostByID(Resource):
         if post:
             return post.to_dict(), 200
         else:
-            return {'errors': 'prompt not found'}, 404
+            return {'errors': 'post not found'}, 404
+
+    def patch(self, id):
+        post = Post.query.filter_by(id=id).first()
+        if post and request.get_json()['content']:
+            post.content = request.get_json()['content']
+            db.session.add(post)
+            db.session.commit()
+            return post.to_dict(), 200
+        else:
+            return {'errors':'unprocessable entity'}, 422
+
+    def delete(self, id):
+        post = Post.query.filter_by(id=id).first()
+        if post:
+            db.session.delete(post)
+            db.session.commit()
+            return {'message':'successfully deleted'}, 204
+        return {'errors': 'post not found'}, 404
 
 class PromptByID(Resource):
     def get(self, id):
@@ -106,6 +124,13 @@ class PromptByID(Resource):
             return prompt.to_dict(), 200
         else:
             return {'errors': 'prompt not found'}, 404
+    def delete(self, id):
+        prompt = Prompt.query.filter_by(id=id).first()
+        if prompt:
+            db.session.delete(prompt)
+            db.session.commit()
+            return {'message':'successfully deleted'}, 204
+        return {'errors': 'prompt not found'}, 404
 
 class UserByUsername(Resource):
     def get(self, username):

@@ -55,6 +55,11 @@ function PromptPage({ user }) {
         });
     }
 
+    function handleDelete(id) {
+        const updatedPosts = posts.filter(post => post.id !== id)
+        setPosts(updatedPosts)
+    }
+
     function handleChange(e) {
         setBody(e.target.value)
     }
@@ -72,10 +77,10 @@ function PromptPage({ user }) {
             { user ? <form onSubmit={handleSubmit} className="new-post">
                 <textarea name='post' rows="5" cols="200" placeholder="Add a post..." value={body} onChange={handleChange}/>
                 <button type='submit'>Post</button>
+                <p style={{color:"red"}}>{error}</p>
             </form> : null}
-            <p style={{color:"red"}}>{error}</p>
             {posts.map((post) => (
-                <Post key={post.id} user={user} post={post}/>
+                <Post onDelete={handleDelete} key={post.id} user={user} post={post}/>
             ))}
         </>
     )
