@@ -9,12 +9,6 @@ function Post({ post, user, onDelete }) {
     const [error, setError] = useState('')
     const history = useHistory()
     
-    function handleCreatedClick() {
-        if (post.user) {
-            history.push(`/users/${post.user.username}`)
-        }
-    }
-
     function handleEditClick() {
         setEdit(!edit)
     }
@@ -56,21 +50,21 @@ function Post({ post, user, onDelete }) {
 
     return (
         <div className='post' key={post.id}>
-            { edit ? (
+            {post.user ? <span onClick={() => {history.push(`/users/${post.user.username}`)}}>{post.user.username}:</span> : null}
+            {edit ? (
                 <form onSubmit={handleSubmit} className='edit-post'>
                     <textarea name='edit-post' rows="2" cols="50" value={body} onChange={handleChange}/>
                     <button type='submit'>Post</button>
                     <p style={{color:"red"}}>{error}</p>
                 </form>
                 ) : <p>{postContent}</p>}
-            <span onClick={handleCreatedClick}>Posted {post.user ? `by ${post.user.username}` : ''} on {post.created}</span>
-            <br/>
-            <span>{post.updated_at ? `Edited on ${post.updated_at}` : null}</span>
-            <br/>
-            { user ? <button>{post.likes} 👍</button> : null}
-            { user ? <button>Favorite 💗</button> : null}
-            { (user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleEditClick}>{ edit ? 'Cancel ❌' : 'Edit ✏️'}</button> : null}
-            { (user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleDeleteClick}>Delete 🗑️</button> : null}
+            <p>Posted on: {post.created}</p>
+            {post.updated_at ? <p>Edited on: {post.updated_at}</p> : null}
+            {user ? <button>{post.likes} 👍</button> : null}
+            {user ? <button>Favorite 💗</button> : null}
+            {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleEditClick}>{ edit ? 'Cancel ❌' : 'Edit ✏️'}</button> : null}
+            {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleDeleteClick}>Delete 🗑️</button> : null}
+            {post.user ? null : <button onClick={() => {history.push(`/prompts/${post.prompt_id}`)}}>Parent Prompt</button>}
         </div>
     )
 }
