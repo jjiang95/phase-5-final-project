@@ -21,7 +21,7 @@ function Signup({ handleLogin, user }) {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            fetch('/signup', {
+            fetch(`http://127.0.0.1:5555/signup`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -30,9 +30,11 @@ function Signup({ handleLogin, user }) {
             }).then((res) => {
                 if (res.status === 201) {
                     setErrorState('Success')
-                    handleLogin(res)
-                    history.push('/')
-                    window.location.reload(false)
+                    res.json()
+                    .then((user) => {
+                        handleLogin(user)
+                        history.push('/')
+                    })
                 } else if (res.status === 400) {
                     setErrorState('Username already taken')
                 } else if (res.status === 422) {
@@ -44,7 +46,7 @@ function Signup({ handleLogin, user }) {
 
     if (user) {
         return (
-            <h1>Already logged in.</h1>
+            <h1>Logged in.</h1>
         )
     } 
     return (

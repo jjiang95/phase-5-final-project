@@ -19,7 +19,7 @@ function Login({ handleLogin, user }) {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            fetch('/login', {
+            fetch(`http://127.0.0.1:5555/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -28,9 +28,11 @@ function Login({ handleLogin, user }) {
             }).then((res) => {
                 if (res.status === 200) {
                     setErrorState('Success')
-                    handleLogin(res)
-                    history.push('/')
-                    window.location.reload(false)
+                    res.json()
+                    .then((user) => {
+                        handleLogin(user)
+                        history.push('/')
+                    })
                 } else if (res.status === 401) {
                     setErrorState('Invalid username/password')
                 } 
@@ -40,7 +42,7 @@ function Login({ handleLogin, user }) {
 
     if (user) {
         return (
-            <h1>Already logged in.</h1>
+            <h1>Logged in.</h1>
         )
     } 
     return (

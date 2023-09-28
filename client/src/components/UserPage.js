@@ -10,7 +10,7 @@ function UserPage({ user }) {
     const [notFound, setNotFound] = useState('')
     
     useEffect(() => {
-        fetch(`/users/${params.username}`)
+        fetch(`http://127.0.0.1:5555/users/${params.username}`)
         .then(res => {
             if (res.status === 200) {
                 res.json()

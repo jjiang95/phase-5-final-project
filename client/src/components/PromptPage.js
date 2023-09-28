@@ -7,16 +7,18 @@ function PromptPage({ user }) {
 
     const params = useParams()
     const [prompt, setPrompt] = useState(null)
+    const [posts, setPosts] = useState(null)
     const [notFound, setNotFound] = useState('')
     const [newPost, setNewPost] = useState('')
 
     useEffect(() => {
-        fetch(`/prompts/${params.id}`)
+        fetch(`http://127.0.0.1:5555/prompts/${params.id}`)
         .then(res => {
             if (res.status === 200) {
                 res.json()
                 .then((prompt) => {
                     setPrompt(prompt)
+                    setPosts(prompt.posts)
                 })
             } else {
                 res.json()
@@ -47,7 +49,7 @@ function PromptPage({ user }) {
                 <input type='text' name='post' value={newPost} onChange={handleChange}/>
                 <button type='submit'>Post</button>
             </form>
-            {prompt.posts.map((post) => (
+            {posts.map((post) => (
                 <Post key={post.id} user={user} post={post}/>
             ))}
         </>
