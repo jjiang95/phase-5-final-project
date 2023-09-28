@@ -10,6 +10,7 @@ function PromptPage({ user }) {
     const [posts, setPosts] = useState(null)
     const [notFound, setNotFound] = useState('')
     const [body, setBody] = useState('')
+    const [error, setError] = useState('')
 
     useEffect(() => {
         fetch(`/prompts/${params.id}`)
@@ -46,7 +47,10 @@ function PromptPage({ user }) {
                 .then((newPost) => {
                     setPosts([...posts, newPost])
                     setBody('')
+                    setError('')
                 })
+            } else if (res.status === 422) {
+                setError('Post cannot be empty.')
             }
         });
     }
@@ -66,9 +70,10 @@ function PromptPage({ user }) {
         <>
             <Prompt prompt={prompt} user={user}/>
             { user ? <form onSubmit={handleSubmit} className="new-post">
-                <input type='text' name='post' value={body} onChange={handleChange}/>
+                <textarea name='post' rows="5" cols="200" placeholder="Add a post..." value={body} onChange={handleChange}/>
                 <button type='submit'>Post</button>
             </form> : null}
+            <p style={{color:"red"}}>{error}</p>
             {posts.map((post) => (
                 <Post key={post.id} user={user} post={post}/>
             ))}

@@ -6,6 +6,7 @@ import Signup from './Signup';
 import Login from './Login';
 import UserPage from './UserPage';
 import PromptPage from './PromptPage';
+import NewPrompt from './NewPrompt';
 
 function App() {
   const history = useHistory()
@@ -45,12 +46,13 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <>
       <h2>{ user ? `Hello, ${user.username}` : `Welcome!`}</h2>
       <button onClick={() => {history.push('/')}}>Home</button>
       { user ? <button onClick={() => {history.push(`/users/${user.username}`)}}>Profile</button> : null}
       <button onClick={user ? handleLogoutClick : handleLoginClick}>{ user ? 'Logout' : 'Login'}</button>
       { user ? null : <button onClick={handleSignupClick}>Signup</button>}
+      { user && user.admin ? <button onClick={() => {history.push('/newprompt')}}>+Create Prompt</button> : null}
       <Switch>
         <Route exact path='/'>
           <Home user={user}/>          
@@ -67,11 +69,14 @@ function App() {
         <Route exact path='/prompts/:id'>
           <PromptPage user={user}/>
         </Route>
+        <Route exact path='/newprompt'>
+          <NewPrompt user={user}/>
+        </Route>
         <Route exact path='/*'>
           <h1>404 -- Not Found</h1>
         </Route>
       </Switch>
-    </div>
+    </>
   );
 }
 

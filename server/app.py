@@ -13,7 +13,22 @@ class AllPrompts(Resource):
             200
         )
         return response
-
+    
+    def post(self):
+        user = User.query.filter(User.id == session.get('user_id')).first()
+        content = request.get_json()['content']
+        if user and user.admin == True:
+            if content and len(content) <= 150:
+                new_prompt = Prompt(
+                    content=content,
+                )
+                db.session.add(new_prompt)
+                db.session.commit()
+                return new_prompt.to_dict(), 201
+            else:
+                return {'errors':'unprocessable entity'}, 422
+        return {'errors':'unauthorized'}, 401
+    
 class Signup(Resource):
 
     def post(self):
