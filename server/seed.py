@@ -1,5 +1,5 @@
 from app import app
-from models import User, Post, Prompt
+from models import User, Post, Prompt, favorite
 from config import db
 
 if __name__ == '__main__':
@@ -7,6 +7,7 @@ if __name__ == '__main__':
         User.query.delete()
         Post.query.delete()
         Prompt.query.delete()
+        db.session.query(favorite).delete()
 
         user1 = User(username='jasmine', admin=True)
         user1.password = 'asdf'

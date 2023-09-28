@@ -21,6 +21,7 @@ class AllPrompts(Resource):
             if content and len(content) <= 150:
                 new_prompt = Prompt(
                     content=content,
+                    user_id=request.get_json()['user_id']
                 )
                 db.session.add(new_prompt)
                 db.session.commit()

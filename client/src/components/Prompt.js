@@ -20,8 +20,7 @@ function Prompt({ prompt, user }) {
             <h1 onClick={onPromptClick}>{prompt.content}</h1>
             <span onClick={onCreatedClick}>Created {prompt.user ? `by ${prompt.user.username}` : ''} on {prompt.created}</span>
             <br/>
-            { user && user.id === prompt.user_id ? <button>Edit</button> : null}
-            { user && user.id === prompt.user_id ? <button>Delete</button> : null}   
+            { user && user.id === prompt.user_id ? <button>Delete 🗑️</button> : null}   
         </div>
     )
 }
