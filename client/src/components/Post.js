@@ -65,6 +65,8 @@ function Post({ post, user, onDelete }) {
                 ) : <p>{postContent}</p>}
             <span onClick={handleCreatedClick}>Posted {post.user ? `by ${post.user.username}` : ''} on {post.created}</span>
             <br/>
+            <span>{post.updated_at ? `Edited on ${post.updated_at}` : null}</span>
+            <br/>
             { user ? <button>{post.likes} 👍</button> : null}
             { user ? <button>Favorite 💗</button> : null}
             { (user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleEditClick}>{ edit ? 'Cancel ❌' : 'Edit ✏️'}</button> : null}

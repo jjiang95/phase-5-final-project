@@ -1,10 +1,12 @@
 import React, { useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Post from './Post';
 import Prompt from './Prompt';
 
 function PromptPage({ user }) {
 
+    const history = useHistory()
     const params = useParams()
     const [prompt, setPrompt] = useState(null)
     const [posts, setPosts] = useState(null)
@@ -60,6 +62,14 @@ function PromptPage({ user }) {
         setPosts(updatedPosts)
     }
 
+    function handlePromptDelete() {
+        fetch(`/prompts/${prompt.id}`, {
+            method:"DELETE",        
+        })
+        .then(() => history.push(`/`))
+       
+    }
+
     function handleChange(e) {
         setBody(e.target.value)
     }
@@ -74,6 +84,7 @@ function PromptPage({ user }) {
     return (
         <>
             <Prompt prompt={prompt} user={user}/>
+            { user && user.admin === true ? <button onClick={handlePromptDelete}>Delete 🗑️</button> : null}
             { user ? <form onSubmit={handleSubmit} className="new-post">
                 <textarea name='post' rows="5" cols="200" placeholder="Add a post..." value={body} onChange={handleChange}/>
                 <button type='submit'>Post</button>

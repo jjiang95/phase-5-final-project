@@ -7,7 +7,8 @@ function UserPage({ user }) {
     
     const params = useParams();
     const [profile, setProfile] = useState(null);
-    const [notFound, setNotFound] = useState('')
+    const [notFound, setNotFound] = useState('');
+    const [posts, setPosts] = useState()
     
     useEffect(() => {
         fetch(`/users/${params.username}`)
@@ -16,6 +17,7 @@ function UserPage({ user }) {
                 res.json()
                 .then((profile) => {
                     setProfile(profile)
+                    setPosts(profile.posts)
                 })
             } else {
                 res.json()
@@ -23,6 +25,11 @@ function UserPage({ user }) {
             }
         });
     }, [params.username]);
+
+    function handleDelete(id) {
+        const updatedPosts = posts.filter(post => post.id !== id)
+        setPosts(updatedPosts)       
+    }
 
     if (!profile) {
         return (
@@ -40,8 +47,8 @@ function UserPage({ user }) {
             )) : null}
 
             <h2>Posts</h2>
-            {profile.posts.map((post => (
-                <Post key={post.id} post={post} user={user} profile={profile}/>
+            {posts.map((post => (
+                <Post key={post.id} post={post} user={user} profile={profile} onDelete={handleDelete}/>
             )))}
         </>
     )
