@@ -1,10 +1,11 @@
 import React, { useEffect, useState} from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import Post from './Post';
 import Prompt from './Prompt';
 
-function UserPage({ user }) {
+function UserPage({ user, setUser }) {
     
+    const history = useHistory()
     const params = useParams();
     const [profile, setProfile] = useState(null);
     const [notFound, setNotFound] = useState('');
@@ -31,6 +32,18 @@ function UserPage({ user }) {
         setPosts(updatedPosts)       
     }
 
+    function handleDeleteAccount() {
+        fetch(`/users/${params.username}`, {
+            method:"DELETE"
+        })
+        .then((res) => {
+            if (res.ok) {
+                history.push('/')
+                setUser(null)
+            }
+        })
+    }
+
     if (!profile) {
         return (
             <h1>{ notFound ? notFound : ''}</h1>
@@ -50,6 +63,8 @@ function UserPage({ user }) {
             {posts.map((post => (
                 <Post key={post.id} post={post} user={user} profile={profile} onDelete={handleDelete}/>
             )))}
+            <br/>
+            { (user && user.id === profile.id) ? <button onClick={handleDeleteAccount}>Delete Account</button> : null}
         </>
     )
 

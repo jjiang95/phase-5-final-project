@@ -29,7 +29,7 @@ function NewPrompt({ user }) {
                     history.push(`/prompts/${newPrompt.id}`)
                 })
             } else if (res.status === 422) {
-                setError('Prompt cannot be empty.')
+                setError('Prompt cannot be empty or >150 characters.')
             }
         })
     }

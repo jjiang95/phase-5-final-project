@@ -101,7 +101,8 @@ class PostByID(Resource):
 
     def patch(self, id):
         post = Post.query.filter_by(id=id).first()
-        if post and request.get_json()['content']:
+        content = request.get_json()['content']
+        if post and content and len(content) <= 600:
             post.content = request.get_json()['content']
             db.session.add(post)
             db.session.commit()
@@ -139,6 +140,15 @@ class UserByUsername(Resource):
             return user.to_dict(), 200
         else:
             return {'errors': 'user not found'}, 404
+    def delete(self, username):
+        user = User.query.filter_by(username=username).first()
+        if user and session.get('user_id') == user.id:
+            db.session.delete(user)
+            db.session.commit()
+            session.pop('user_id', default=None)            
+            return {'message':'successfully deleted'}, 204
+        return {'errors': 'user not found'}, 404
+
 
 api.add_resource(CheckSession, '/check_session')
 api.add_resource(AllPrompts, '/prompts/all')

@@ -64,7 +64,7 @@ function App() {
           <Login user={user} handleLogin={handleLogin}/>
         </Route>
         <Route exact path='/users/:username'>
-          <UserPage user={user}/>
+          <UserPage user={user} setUser={setUser}/>
         </Route>
         <Route exact path='/prompts/:id'>
           <PromptPage user={user}/>

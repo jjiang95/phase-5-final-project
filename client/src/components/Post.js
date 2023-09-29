@@ -43,7 +43,7 @@ function Post({ post, user, onDelete }) {
                     setEdit(!edit)
                 })
             } else {
-                setError('Post cannot be empty.')
+                setError('Post cannot be empty or >600 characters.')
             }
         })
     }
@@ -60,11 +60,10 @@ function Post({ post, user, onDelete }) {
                 ) : <p>{postContent}</p>}
             <p>Posted on: {post.created}</p>
             {post.updated_at ? <p>Edited on: {post.updated_at}</p> : null}
-            {user ? <button>{post.likes} 👍</button> : null}
             {user ? <button>Favorite 💗</button> : null}
             {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleEditClick}>{ edit ? 'Cancel ❌' : 'Edit ✏️'}</button> : null}
             {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleDeleteClick}>Delete 🗑️</button> : null}
-            {post.user ? null : <button onClick={() => {history.push(`/prompts/${post.prompt_id}`)}}>Parent Prompt</button>}
+            {post.user || post.user === null ? null : <button onClick={() => {history.push(`/prompts/${post.prompt_id}`)}}>Parent Prompt</button>}
         </div>
     )
 }

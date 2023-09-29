@@ -1,6 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useParams, useHistory } from "react-router-dom";
 import Post from './Post';
 import Prompt from './Prompt';
 
@@ -15,19 +14,23 @@ function PromptPage({ user }) {
     const [error, setError] = useState('')
 
     useEffect(() => {
-        fetch(`/prompts/${params.id}`)
-        .then(res => {
-            if (res.status === 200) {
-                res.json()
-                .then((prompt) => {
-                    setPrompt(prompt)
-                    setPosts(prompt.posts)
-                })
-            } else {
-                res.json()
-                setNotFound('Prompt not found.')
-            }
-        });
+        if (params.id === 'null') {
+            setNotFound('Prompt not found.')
+        } else {
+            fetch(`/prompts/${params.id}`)
+            .then(res => {
+                if (res.status === 200) {
+                    res.json()
+                    .then((prompt) => {
+                        setPrompt(prompt)
+                        setPosts(prompt.posts)
+                    })
+                } else {
+                    res.json()
+                    setNotFound('Prompt not found.')
+                }
+            });
+        }
     }, [params.id]);
 
     function handleSubmit(e) {
@@ -52,7 +55,7 @@ function PromptPage({ user }) {
                     setError('')
                 })
             } else if (res.status === 422) {
-                setError('Post cannot be empty.')
+                setError('Post cannot be empty or >600 characters.')
             }
         });
     }
@@ -79,7 +82,6 @@ function PromptPage({ user }) {
             <h1>{ notFound ? notFound : ''}</h1>
         )
     }
-
 
     return (
         <>
