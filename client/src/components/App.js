@@ -1,6 +1,5 @@
-import { Route, Switch } from 'react-router-dom/cjs/react-router-dom.min';
+import { Route, Switch, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Home from './Home';
 import Signup from './Signup';
 import Login from './Login';
@@ -55,7 +54,7 @@ function App() {
       { user && user.admin ? <button onClick={() => {history.push('/newprompt')}}>+Create Prompt</button> : null}
       <Switch>
         <Route exact path='/'>
-          <Home user={user}/>          
+          <Home/>          
         </Route>
         <Route exact path='/signup'>
           <Signup user={user} handleLogin={handleLogin}/>

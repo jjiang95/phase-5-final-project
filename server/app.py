@@ -149,6 +149,29 @@ class UserByUsername(Resource):
             return {'message':'successfully deleted'}, 204
         return {'errors': 'user not found'}, 404
 
+class Favorites(Resource):
+    def post(self, user_id, post_id):
+        if session.get('user_id') == user_id:
+            user = User.query.filter_by(id=user_id).first()
+            post = Post.query.filter_by(id=post_id).first()
+            if user and post:
+                user.favorite_posts.append(post)
+                db.session.commit()
+                return post.to_dict(), 200
+            return {'errors':'post or user not found'}, 404
+        return {'errors':'unauthorized'}, 401
+    def delete(self, user_id, post_id):
+        if session.get('user_id') == user_id:
+            user = User.query.filter_by(id=user_id).first()
+            post = Post.query.filter_by(id=post_id).first()
+            if user and post:
+                user.favorite_posts.remove(post)
+                db.session.commit()
+                return post.to_dict(), 200
+            return {'errors':'post or user not found'}, 404
+        return {'errors':'unauthorized'}, 401
+
+
 
 api.add_resource(CheckSession, '/check_session')
 api.add_resource(AllPrompts, '/prompts/all')
@@ -159,6 +182,7 @@ api.add_resource(Posts, '/posts')
 api.add_resource(PostByID, '/posts/<int:id>')
 api.add_resource(PromptByID, '/prompts/<int:id>')
 api.add_resource(UserByUsername, '/users/<string:username>')
+api.add_resource(Favorites, '/favorites/<int:user_id>/<int:post_id>')
     
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

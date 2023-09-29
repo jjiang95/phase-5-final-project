@@ -69,14 +69,20 @@ function PromptPage({ user }) {
         fetch(`/prompts/${prompt.id}`, {
             method:"DELETE",        
         })
-        .then(() => history.push(`/`))
-       
+        .then(() => history.push(`/`))       
     }
 
     function handleChange(e) {
         setBody(e.target.value)
     }
 
+    function handleAddFavorite() {
+        return  
+    }
+
+    function handleDeleteFavorite() {
+        return
+    }
     if (!prompt) {
         return (
             <h1>{ notFound ? notFound : ''}</h1>
@@ -85,7 +91,7 @@ function PromptPage({ user }) {
 
     return (
         <>
-            <Prompt prompt={prompt} user={user}/>
+            <Prompt prompt={prompt}/>
             { user && user.admin === true ? <button onClick={handlePromptDelete}>Delete 🗑️</button> : null}
             { user ? <form onSubmit={handleSubmit} className="new-post">
                 <textarea name='post' rows="5" cols="200" placeholder="Add a post..." value={body} onChange={handleChange}/>
@@ -93,7 +99,7 @@ function PromptPage({ user }) {
                 <p style={{color:"red"}}>{error}</p>
             </form> : null}
             {posts.map((post) => (
-                <Post onDelete={handleDelete} key={post.id} user={user} post={post}/>
+                <Post onDelete={handleDelete} key={post.id} user={user} post={post} onAddFavorite={handleAddFavorite} onDeleteFavorite={handleDeleteFavorite}/>
             ))}
         </>
     )

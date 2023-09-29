@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 
-function Post({ post, user, onDelete }) {
+function Post({ post, user, onDelete, onAddFavorite, onDeleteFavorite }) {
 
     const [postContent, setPostContent] = useState(post.content)
     const [body, setBody] = useState(postContent)
     const [edit, setEdit] = useState(false)
     const [error, setError] = useState('')
+    const [favorited, setFavorited] = useState(false)
     const history = useHistory()
-    
+
+    useEffect(() => {
+        if (user) {
+            setFavorited(checkFavorited())
+        }
+    }, [user])
+
     function handleEditClick() {
         setEdit(!edit)
     }
@@ -22,6 +29,32 @@ function Post({ post, user, onDelete }) {
             method:"DELETE",        
         })
         .then(() => onDelete(post.id))
+    }
+
+    function handleFavoriteClick() {
+        if (favorited === false) {
+            setFavorited(true)
+            fetch(`/favorites/${user.id}/${post.id}`, {
+                method:"POST"
+            })
+            .then((res) => {
+                res.json()
+                .then((post) => onAddFavorite(post))
+            })
+        } else {
+            setFavorited(false)
+            fetch(`/favorites/${user.id}/${post.id}`, {
+                method:"DELETE"
+            })
+            .then((res) => {
+                res.json()
+                .then((post) => onDeleteFavorite(post.id))
+            })
+        }
+    }
+
+    function checkFavorited() {
+        return user.favorite_posts.some(item => item.id === post.id)
     }
 
     function handleSubmit(e) {
@@ -60,10 +93,10 @@ function Post({ post, user, onDelete }) {
                 ) : <p>{postContent}</p>}
             <p>Posted on: {post.created}</p>
             {post.updated_at ? <p>Edited on: {post.updated_at}</p> : null}
-            {user ? <button>Favorite 💗</button> : null}
+            <button onClick={handleFavoriteClick}>{favorited ? `Favorited ✔️` : `Favorite 💗`}</button>
             {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleEditClick}>{ edit ? 'Cancel ❌' : 'Edit ✏️'}</button> : null}
             {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleDeleteClick}>Delete 🗑️</button> : null}
-            {post.user || post.user === null ? null : <button onClick={() => {history.push(`/prompts/${post.prompt_id}`)}}>Parent Prompt</button>}
+            {post.user || post.user === null ? null : <button onClick={() => {history.push(`/prompts/${post.prompt_id}`)}}>Parent Prompt 📝</button>}
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
 
-function Prompt({ prompt, user, onDelete }) {
+function Prompt({ prompt }) {
 
     const history = useHistory()
 
@@ -13,13 +13,6 @@ function Prompt({ prompt, user, onDelete }) {
         if (prompt.user) {
             history.push(`/users/${prompt.user.username}`)
         }
-    }
-
-    function onDeleteClick() {
-        fetch(`/prompts/${prompt.id}`, {
-            method:"DELETE",        
-        })
-        .then(() => onDelete(prompt.id)) 
     }
 
     return (

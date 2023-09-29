@@ -11,7 +11,7 @@ favorite = db.Table('favorite',
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
     
-    serialize_rules = ('-favorites', '-_password', '-prompts.user','-prompts.posts', '-posts.user',)
+    serialize_rules = ('-_password', '-prompts.user','-prompts.posts', '-posts.user', '-favorite_posts.user',)
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     _password = db.Column(db.String(20), nullable=False)
