@@ -76,13 +76,6 @@ function PromptPage({ user }) {
         setBody(e.target.value)
     }
 
-    function handleAddFavorite() {
-        return  
-    }
-
-    function handleDeleteFavorite() {
-        return
-    }
     if (!prompt) {
         return (
             <h1>{ notFound ? notFound : ''}</h1>
@@ -99,7 +92,7 @@ function PromptPage({ user }) {
                 <p style={{color:"red"}}>{error}</p>
             </form> : null}
             {posts.map((post) => (
-                <Post onDelete={handleDelete} key={post.id} user={user} post={post} onAddFavorite={handleAddFavorite} onDeleteFavorite={handleDeleteFavorite}/>
+                <Post onDelete={handleDelete} key={post.id} user={user} post={post}/>
             ))}
         </>
     )

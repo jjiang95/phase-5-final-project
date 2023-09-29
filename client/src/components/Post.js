@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 
-function Post({ post, user, onDelete, onAddFavorite, onDeleteFavorite }) {
+function Post({ post, user, onDelete, onAddFavorite=null, onDeleteFavorite=null }) {
 
     const [postContent, setPostContent] = useState(post.content)
     const [body, setBody] = useState(postContent)
@@ -39,7 +39,11 @@ function Post({ post, user, onDelete, onAddFavorite, onDeleteFavorite }) {
             })
             .then((res) => {
                 res.json()
-                .then((post) => onAddFavorite(post))
+                .then((post) => {
+                    if (onAddFavorite) {
+                        onAddFavorite(post)
+                    }
+                })
             })
         } else {
             setFavorited(false)
@@ -48,7 +52,11 @@ function Post({ post, user, onDelete, onAddFavorite, onDeleteFavorite }) {
             })
             .then((res) => {
                 res.json()
-                .then((post) => onDeleteFavorite(post.id))
+                .then((post) => {
+                    if (onDeleteFavorite) {
+                        onDeleteFavorite(post.id)
+                    }
+                })
             })
         }
     }
