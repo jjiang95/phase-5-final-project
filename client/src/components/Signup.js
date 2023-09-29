@@ -10,7 +10,10 @@ function Signup({ handleLogin, user }) {
     const formSchema = yup.object().shape({
         username: yup.string().required("Must enter a username").max(20),
         password: yup.string().required("Must enter a password").max(20),
-        confirmation: yup.string().required("Must confirm password").max(20),
+        confirmation: yup.string()
+            .required("Must confirm password")
+            .max(20)
+            .oneOf([yup.ref('password'), null], "Passwords must match"),
     });
 
     const formik = useFormik({

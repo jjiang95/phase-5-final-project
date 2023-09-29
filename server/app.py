@@ -5,7 +5,6 @@ from models import User, Prompt, Post
 from sqlalchemy.exc import IntegrityError
 
 class AllPrompts(Resource):
-
     def get(self):
         data = Prompt.query.all()
         response = make_response(
@@ -31,7 +30,6 @@ class AllPrompts(Resource):
         return {'errors':'unauthorized'}, 401
     
 class Signup(Resource):
-
     def post(self):
         data = request.get_json()
         if len(data['username']) <= 20 and len(data['password']) <= 20:
@@ -170,8 +168,6 @@ class Favorites(Resource):
                 return post.to_dict(), 200
             return {'errors':'post or user not found'}, 404
         return {'errors':'unauthorized'}, 401
-
-
 
 api.add_resource(CheckSession, '/check_session')
 api.add_resource(AllPrompts, '/prompts/all')
