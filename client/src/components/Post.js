@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 
-function Post({ post, user, onDelete, onAddFavorite=null, onDeleteFavorite=null }) {
+function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onDeleteFavorite=null }) {
 
     const [postContent, setPostContent] = useState(post.content)
     const [body, setBody] = useState(postContent)
@@ -14,7 +14,7 @@ function Post({ post, user, onDelete, onAddFavorite=null, onDeleteFavorite=null 
         if (user) {
             setFavorited(checkFavorited())
         }
-    }, [user])
+    }, [user, post])
 
     function handleEditClick() {
         setEdit(!edit)
@@ -32,12 +32,12 @@ function Post({ post, user, onDelete, onAddFavorite=null, onDeleteFavorite=null 
     }
 
     function handleFavoriteClick() {
-        if (favorited === false) {
-            setFavorited(true)
+        if (!favorited) {
             fetch(`/favorites/${user.id}/${post.id}`, {
                 method:"POST"
             })
             .then((res) => {
+                setFavorited(!favorited)
                 res.json()
                 .then((post) => {
                     if (onAddFavorite) {
@@ -46,11 +46,11 @@ function Post({ post, user, onDelete, onAddFavorite=null, onDeleteFavorite=null 
                 })
             })
         } else {
-            setFavorited(false)
             fetch(`/favorites/${user.id}/${post.id}`, {
                 method:"DELETE"
             })
             .then((res) => {
+                setFavorited(!favorited)
                 res.json()
                 .then((post) => {
                     if (onDeleteFavorite) {
@@ -63,6 +63,10 @@ function Post({ post, user, onDelete, onAddFavorite=null, onDeleteFavorite=null 
 
     function checkFavorited() {
         return user.favorite_posts.some(item => item.id === post.id)
+    }
+
+    function handleReplyClick() {
+        onReplyClick(post.user.username)
     }
 
     function handleSubmit(e) {
@@ -101,10 +105,11 @@ function Post({ post, user, onDelete, onAddFavorite=null, onDeleteFavorite=null 
                 ) : <p>{postContent}</p>}
             <p>Posted on: {post.created}</p>
             {post.updated_at ? <p>Edited on: {post.updated_at}</p> : null}
-            <button onClick={handleFavoriteClick}>{favorited ? `Favorited ✔️` : `Favorite 💗`}</button>
+            {user ? <button onClick={handleFavoriteClick}>{favorited ? `Favorited ✔️` : `Favorite 💗`}</button> : null}
             {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleEditClick}>{ edit ? 'Cancel ❌' : 'Edit ✏️'}</button> : null}
             {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleDeleteClick}>Delete 🗑️</button> : null}
-            {post.user || post.user === null ? null : <button onClick={() => {history.push(`/prompts/${post.prompt_id}`)}}>Parent Prompt 📝</button>}
+            {(user && post.user) || (user && post.user === null) ? <button onClick={handleReplyClick}>Reply 📩</button> : null}
+            {(user && post.user) || (user && post.user === null) || !user ? null : <button onClick={() => {history.push(`/prompts/${post.prompt_id}`)}}>Parent Prompt 📝</button>}
         </div>
     )
 }
