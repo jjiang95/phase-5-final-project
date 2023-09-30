@@ -7,6 +7,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: white;
+  padding-top: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 code {
@@ -25,4 +28,8 @@ span:hover {
 textarea {
   width: 80vw;
   max-width:100%;
+}
+
+.navbar {
+  text-align:right;
 }

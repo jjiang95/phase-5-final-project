@@ -1,9 +1,13 @@
 from app import app
 from models import User, Post, Prompt, favorite
 from config import db
+from faker import Faker
+from random import randint, choice
 
 if __name__ == '__main__':
     with app.app_context():
+
+        fake = Faker()
         User.query.delete()
         Post.query.delete()
         Prompt.query.delete()
@@ -11,18 +15,42 @@ if __name__ == '__main__':
 
         user1 = User(username='jasmine', admin=True)
         user1.password = 'asdf'
-        user2 = User(username='john123')
-        user2.password = '123456'
 
-        post1 = Post(content='Mary had a little lamb', user_id=1, prompt_id=2)
-        post2 = Post(content="Baa baa black sheep", user_id=2, prompt_id=1)
+        users = []
+        users.append(user1)
         
-        prompt1 = Prompt(content="IDK, write whatever", user_id=1)
-        prompt2 = Prompt(content="Write something cool", user_id=1)
+        for _ in range(10):
+            user = User(
+                username=fake.first_name()
+            )
+            user.password = fake.word()
+            users.append(user)
 
-        user1.favorite_posts.append(post1)
-        user1.favorite_posts.append(post2)
-        db.session.add_all([user1, user2])
-        db.session.add_all([post1, post2])
-        db.session.add_all([prompt1, prompt2])
+        prompts = []
+
+        for _ in range(10):
+            prompt = Prompt(
+                content=fake.paragraph(nb_sentences=2),
+                user_id=1
+            )
+            prompts.append(prompt)
+
+        posts = []
+
+        for _ in range(50):
+            post = Post(
+                content=fake.paragraph(nb_sentences=4),
+                user_id=randint(1, 11),
+                prompt_id=randint(1, 10)
+            )
+            posts.append(post)
+        
+        for user in users:
+            user.favorite_posts.append(choice(posts))
+            user.favorite_posts.append(choice(posts))
+            user.favorite_posts.append(choice(posts))
+            
+        db.session.add_all(users)
+        db.session.add_all(posts)
+        db.session.add_all(prompts)
         db.session.commit()

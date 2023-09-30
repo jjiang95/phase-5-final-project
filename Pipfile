@@ -16,6 +16,7 @@ gunicorn = "*"
 psycopg2-binary = "*"
 flask-bcrypt = "*"
 python-dotenv = "*"
+faker = "*"
 
 [dev-packages]
 
