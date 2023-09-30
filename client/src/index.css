@@ -6,10 +6,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: white;
-  padding-top: 20px;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-top:20px;
+  padding-bottom:20px;
+  padding-left:15%;
+  padding-right:15%;
 }
 
 code {
@@ -17,7 +17,7 @@ code {
     monospace;
 }
 
-span, h1, button {
+span, h2, button {
   cursor:pointer;
 }
 
@@ -26,10 +26,30 @@ span:hover {
 }
 
 textarea {
-  width: 80vw;
+  width: 100%;
   max-width:100%;
+}
+
+.app {
+  margin-top:100px;
+  padding:20px;
+  background-color:white;
+  border-style:solid;
+
 }
 
 .navbar {
   text-align:right;
 }
+
+.nav-link {
+  padding:5px;
+}
+
+.prompt-page .prompt {
+  text-align:center;
+}
+
+/* .home .prompt {
+
+} */

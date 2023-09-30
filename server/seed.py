@@ -28,9 +28,9 @@ if __name__ == '__main__':
 
         prompts = []
 
-        for _ in range(10):
+        for _ in range(5):
             prompt = Prompt(
-                content=fake.paragraph(nb_sentences=2),
+                content=fake.paragraph(nb_sentences=3),
                 user_id=1
             )
             prompts.append(prompt)
@@ -39,9 +39,9 @@ if __name__ == '__main__':
 
         for _ in range(50):
             post = Post(
-                content=fake.paragraph(nb_sentences=4),
+                content=fake.paragraph(nb_sentences=6),
                 user_id=randint(1, 11),
-                prompt_id=randint(1, 10)
+                prompt_id=randint(1, 5)
             )
             posts.append(post)
         

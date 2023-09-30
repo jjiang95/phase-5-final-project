@@ -17,7 +17,7 @@ function Prompt({ prompt }) {
 
     return (
         <div className='prompt' key={prompt.id}>
-            <h1 onClick={onPromptClick}>{prompt.content}</h1>
+            <h2 onClick={onPromptClick}>{prompt.content}</h2>
             <span onClick={onCreatedClick}>Created {prompt.user ? `by ${prompt.user.username}` : ''} on {prompt.created}</span>
         </div>
     )

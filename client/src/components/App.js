@@ -38,29 +38,31 @@ function App() {
   return (
     <>
       <Nav user={user} onLogout={handleLogoutClick}/>
-      <Switch>
-        <Route exact path='/'>
-          <Home/>          
-        </Route>
-        <Route exact path='/signup'>
-          <Signup user={user} handleLogin={handleLogin}/>
-        </Route>
-        <Route exact path='/login'>
-          <Login user={user} handleLogin={handleLogin}/>
-        </Route>
-        <Route exact path='/users/:username'>
-          <UserPage user={user} setUser={setUser}/>
-        </Route>
-        <Route exact path='/prompts/:id'>
-          <PromptPage user={user}/>
-        </Route>
-        <Route exact path='/newprompt'>
-          <NewPrompt user={user}/>
-        </Route>
-        <Route exact path='/*'>
-          <h1>404 -- Not Found</h1>
-        </Route>
-      </Switch>
+      <div className='app'>
+        <Switch>
+          <Route exact path='/'>
+            <Home/>          
+          </Route>
+          <Route exact path='/signup'>
+            <Signup user={user} handleLogin={handleLogin}/>
+          </Route>
+          <Route exact path='/login'>
+            <Login user={user} handleLogin={handleLogin}/>
+          </Route>
+          <Route exact path='/users/:username'>
+            <UserPage user={user} setUser={setUser}/>
+          </Route>
+          <Route exact path='/prompts/:id'>
+            <PromptPage user={user}/>
+          </Route>
+          <Route exact path='/newprompt'>
+            <NewPrompt user={user}/>
+          </Route>
+          <Route exact path='/*'>
+            <h1>404 -- Not Found</h1>
+          </Route>
+        </Switch>
+      </div>
     </>
   );
 }

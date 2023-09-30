@@ -65,15 +65,15 @@ function UserPage({ user, setUser }) {
         <>
             <h1>{profile.username}</h1>
             <p>Joined on: {profile.created}</p>
-            {profile.admin ? <h2>Prompts</h2> : null}
+            {profile.admin ? <h1>Prompts</h1> : null}
             {profile.admin ? profile.prompts.map((prompt) => (
                 <Prompt key={prompt.id} prompt={prompt} user={user}/>
             )) : null}
-            <h2>Posts</h2>
+            <h1>Posts</h1>
             {posts.map((post => (
                 <Post key={post.id} post={post} user={user} onDelete={handleDelete} onAddFavorite={handleAddFavorite} onDeleteFavorite={handleDeleteFavorite}/>
             )))}
-            <h2>Favorites</h2>
+            <h1>Favorites</h1>
             {favorites.map((post => (
                 <Post key={post.id} post={post} user={user} onDelete={handleDelete} onAddFavorite={handleAddFavorite} onDeleteFavorite={handleDeleteFavorite}/>
             )))}

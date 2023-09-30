@@ -13,11 +13,11 @@ function Home() {
     }, [])
 
     return (
-        <>
+        <div className='home'>
             {prompts.map((prompt => (
                 <Prompt key={prompt.id} prompt={prompt}/>
             )))}
-        </>
+        </div>
     )
 }
 

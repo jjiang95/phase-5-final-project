@@ -1,7 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 function Nav({ user, onLogout }) {
+
+    const history = useHistory()
     return (
         <div className='navbar'>
             <span>{ user ? `Hello, ${user.username}!` : `Welcome!`}</span>
@@ -10,7 +12,7 @@ function Nav({ user, onLogout }) {
             {user ? <NavLink className='nav-link' exact to='/' onClick={onLogout}>Logout</NavLink> : <NavLink className='nav-link' exact to='/login'>Login</NavLink>}
             {user ? null : <NavLink className='nav-link' exact to='/signup'>Signup</NavLink>}
             <br/>
-            {user && user.admin ? <button className='nav-link' exact to='/newprompt'>+Create Prompt</button> : null}   
+            {user && user.admin ? <button onClick={() => history.push('/newprompt')}>+Create Prompt</button> : null}   
         </div>
     )
 }
