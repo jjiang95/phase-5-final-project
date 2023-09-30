@@ -27,10 +27,17 @@ if __name__ == '__main__':
             users.append(user)
 
         prompts = []
+        prompt_content = [
+            "In a small antique shop, a character discovers a pocket watch that appears to have the power to rewind time by five minutes. Describe their first encounter with this peculiar timepiece.",
+            "Your character stumbles upon a collection of unsent letters hidden in their late grandmother's attic. As they read through the letters, they uncover a family secret that has been buried for decades.",
+            "A character is stranded on a remote island during a stormy night. They seek shelter in an old, seemingly abandoned lighthouse. Inside, they discover a diary that reveals the lighthouse keeper's haunting experiences with the supernatural.",
+            "Your character finds an old, dusty music box in the attic. When they wind it up and the music plays, they suddenly recall a long-lost childhood memory connected to the haunting melody.",
+            "Write about a magician who performs a seemingly impossible trick during a live show, making a famous monument disappear in front of a large audience. Explore the reactions of the crowd and the magician's motivations behind the illusion."
+        ]
 
-        for _ in range(5):
+        for content in prompt_content:
             prompt = Prompt(
-                content=fake.paragraph(nb_sentences=3),
+                content=content,
                 user_id=1
             )
             prompts.append(prompt)

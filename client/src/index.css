@@ -48,8 +48,27 @@ textarea {
 
 .prompt-page .prompt {
   text-align:center;
+  margin:15px;
 }
 
-/* .home .prompt {
+.post {
+  border-style:solid;
+  padding:8px;
+  margin:5px;
+}
 
-} */
+button {
+  border-style:solid;
+  font-size: 0.8em;
+  font-family:Century Gothic;
+  border-radius:4px;
+  padding:5px;
+  background-color: white;
+  margin:3px;
+}
+
+.home .prompt {
+  border-style:solid;
+  padding:15px;
+  margin:10px;
+}

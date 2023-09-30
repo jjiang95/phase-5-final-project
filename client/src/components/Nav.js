@@ -12,7 +12,7 @@ function Nav({ user, onLogout }) {
             {user ? <NavLink className='nav-link' exact to='/' onClick={onLogout}>Logout</NavLink> : <NavLink className='nav-link' exact to='/login'>Login</NavLink>}
             {user ? null : <NavLink className='nav-link' exact to='/signup'>Signup</NavLink>}
             <br/>
-            {user && user.admin ? <button onClick={() => history.push('/newprompt')}>+Create Prompt</button> : null}   
+            {user && user.admin ? <button onClick={() => history.push('/newprompt')}>Create Prompt 📝</button> : null}   
         </div>
     )
 }
