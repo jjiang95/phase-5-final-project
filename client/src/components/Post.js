@@ -102,7 +102,7 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
                     <button type='submit'>Post</button>
                     <p style={{color:"red"}}>{error}</p>
                 </form>
-                ) : <p>{postContent}</p>}
+                ) : <p className='content'>{postContent}</p>}
             <p>Posted on: {post.created}</p>
             {post.updated_at ? <p>Edited on: {post.updated_at}</p> : null}
             {user ? <button onClick={handleFavoriteClick}>{favorited ? `Favorited ✔️` : `Favorite 💗`}</button> : null}

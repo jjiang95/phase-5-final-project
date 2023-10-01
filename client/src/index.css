@@ -1,15 +1,14 @@
-body {
-  
+body {  
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top:20px;
   padding-bottom:20px;
   padding-left:15%;
   padding-right:15%;
+  background-color: beige;
 }
 
 code {
@@ -19,6 +18,7 @@ code {
 
 span, h2, button {
   cursor:pointer;
+  transition-duration: 0.5s;
 }
 
 span:hover {
@@ -31,34 +31,56 @@ textarea {
 }
 
 .app {
-  margin-top:100px;
   padding:20px;
   background-color:white;
-  border-style:solid;
 
 }
 
 .navbar {
   text-align:right;
+  background-color: rgb(0, 0, 0);
+  height:150px;
+  padding:5px;
+  color:white
+}
+
+.navbar button {
+  margin-top:20px;
+  padding:10px;
 }
 
 .nav-link {
+  color:white;
+  text-decoration: none;
+  transition-duration: 0.5s;
   padding:5px;
 }
 
-.prompt-page .prompt {
-  text-align:center;
-  margin:15px;
+.nav-link:hover {
+  opacity:0.7;
+}
+
+.navbar p {
+  padding-right:5px;
 }
 
 .post {
   border-style:solid;
+  border-width: 2px;
+  border-color:rgb(179, 179, 179);
+  background-color: rgb(245, 245, 245);
+  border-radius:10px;
   padding:8px;
   margin:5px;
 }
 
+.post p:not(.content) {
+  font-size:0.8em;
+}
+
 button {
   border-style:solid;
+  border-color:rgb(179, 179, 179);
   font-size: 0.8em;
   font-family:Century Gothic;
   border-radius:4px;
@@ -67,8 +89,34 @@ button {
   margin:3px;
 }
 
-.home .prompt {
+.prompt p {
+  font-size:0.8em;
+  cursor:pointer;
+  transition-duration: 0.2s;
+}
+
+.prompt h2 {
+  transition-duration: 0.5s;
+}
+
+.prompt p:hover,
+.prompt h2:hover {
+  opacity:0.7;
+}
+
+.home .prompt,
+.user-page .prompt {
   border-style:solid;
+  border-style:solid;
+  border-width: 2px;
+  border-color:rgb(179, 179, 179);
+  border-radius:10px;
   padding:15px;
-  margin:10px;
+  margin:5px;
+  background-color: rgb(245, 245, 245);
+}
+
+.prompt-page .prompt {
+  text-align:center;
+  margin:15px;
 }

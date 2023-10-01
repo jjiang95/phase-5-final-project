@@ -62,7 +62,7 @@ function UserPage({ user, setUser }) {
     }
 
     return (
-        <>
+        <div className='user-page'>
             <h1>{profile.username}</h1>
             <p>Joined on: {profile.created}</p>
             {profile.admin ? <h1>Prompts</h1> : null}
@@ -79,7 +79,7 @@ function UserPage({ user, setUser }) {
             )))}
             { (user && user.id === profile.id) ? <button onClick={handleDeleteAccount}>Delete Account</button> : null}
             <br/>
-        </>
+        </div>
     )
 
 }
