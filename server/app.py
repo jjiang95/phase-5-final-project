@@ -1,3 +1,7 @@
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
 from flask import request, make_response, request, jsonify, session
 from flask_restful import Resource
 from config import app, db, api
@@ -140,11 +144,19 @@ class UserByUsername(Resource):
             return {'errors': 'user not found'}, 404
     def delete(self, username):
         user = User.query.filter_by(username=username).first()
-        if user and session.get('user_id') == user.id:
-            db.session.delete(user)
-            db.session.commit()
-            session.pop('user_id', default=None)            
-            return {'message':'successfully deleted'}, 204
+        active_user = User.query.filter_by(id=session.get('user_id')).first()
+        if active_user and user:
+            if active_user.admin == True and user.id != active_user.id:
+                db.session.delete(user)
+                db.session.commit()
+                return {'message':'successfully deleted'}, 204
+            if active_user.id == user.id:
+                db.session.delete(user)
+                db.session.commit()
+                session.pop('user_id', default=None)            
+                return {'message':'successfully deleted'}, 204
+            else:
+                return {'errors':'unauthorized'}, 401
         return {'errors': 'user not found'}, 404
 
 class Favorites(Resource):

@@ -49,7 +49,9 @@ function UserPage({ user, setUser }) {
         .then((res) => {
             if (res.ok) {
                 history.push('/')
-                setUser(null)
+                if (user.username === profile.username) {
+                    setUser(null)
+                }
             }
         })
     }
@@ -68,7 +70,7 @@ function UserPage({ user, setUser }) {
             setFavorites(updatedFavorites)
         }
     }
-    
+
     if (!profile) {
         return (
             <h1>{notFound ? notFound : ''}</h1>
@@ -77,7 +79,7 @@ function UserPage({ user, setUser }) {
 
     return (
         <div className='user-page'>
-            <h1>{profile.username}</h1>
+            <h1>{profile.username} {profile.admin ? `(Admin)` : null}</h1>
             <p>Joined on: {profile.created}</p>
             {profile.admin ? <h1>Prompts</h1> : null}
             {profile.admin ? prompts.map((prompt) => (
@@ -91,7 +93,7 @@ function UserPage({ user, setUser }) {
             {favorites.map((post => (
                 <Post key={post.id} post={post} user={user} onDelete={handleDelete} onAddFavorite={handleAddFavorite} onDeleteFavorite={handleDeleteFavorite}/>
             )))}
-            { (user && user.id === profile.id) ? <button onClick={handleDeleteAccount}>Delete Account</button> : null}
+            {(user && user.id === profile.id) || (user && user.admin) ? <button onClick={handleDeleteAccount}>Delete Account</button> : null}
             <br/>
         </div>
     )

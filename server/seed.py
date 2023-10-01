@@ -14,10 +14,14 @@ if __name__ == '__main__':
         db.session.query(favorite).delete()
 
         user1 = User(username='jasmine', admin=True)
-        user1.password = 'asdf'
+        user1.password = 'qwerty'
+
+        user2 = User(username='john123')
+        user2.password = 'asdf'
 
         users = []
         users.append(user1)
+        users.append(user2)
         
         for _ in range(10):
             user = User(
@@ -47,7 +51,7 @@ if __name__ == '__main__':
         for _ in range(50):
             post = Post(
                 content=fake.paragraph(nb_sentences=6),
-                user_id=randint(1, 11),
+                user_id=randint(1, 12),
                 prompt_id=randint(1, 5)
             )
             posts.append(post)
