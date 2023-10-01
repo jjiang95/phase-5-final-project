@@ -10,6 +10,7 @@ function UserPage({ user, setUser }) {
     const [profile, setProfile] = useState(null);
     const [notFound, setNotFound] = useState('');
     const [posts, setPosts] = useState([])
+    const [prompts, setPrompts] = useState([])
     const [favorites, setFavorites] = useState([])
     
     useEffect(() => {
@@ -19,8 +20,15 @@ function UserPage({ user, setUser }) {
                 res.json()
                 .then((profile) => {
                     setProfile(profile)
-                    setPosts(profile.posts)
-                    setFavorites(profile.favorite_posts)
+                    setPosts(profile.posts.sort((a, b) => {
+                        return new Date(b.created) - new Date(a.created)
+                    }))
+                    setFavorites(profile.favorite_posts.sort((a, b) => {
+                        return new Date(b.created) - new Date(a.created)
+                    }))
+                    setPrompts(profile.prompts.sort((a, b) => {
+                        return new Date(b.created) - new Date(a.created)
+                    }))
                 })
             } else {
                 res.json()
@@ -47,17 +55,23 @@ function UserPage({ user, setUser }) {
     }
 
     function handleAddFavorite(post) {
-        setFavorites([...favorites, post])
+        if (user.username === profile.username) {
+            if (!favorites.some((favorite) => favorite.id === post.id)) {
+                setFavorites([...favorites, post])
+            }
+        }
     }
-
+    
     function handleDeleteFavorite(id) {
-        const updatedFavorites = favorites.filter(post => post.id !== id)
-        setFavorites(updatedFavorites)
+        if (user.username === profile.username) {
+            const updatedFavorites = favorites.filter(post => post.id !== id)
+            setFavorites(updatedFavorites)
+        }
     }
     
     if (!profile) {
         return (
-            <h1>{ notFound ? notFound : ''}</h1>
+            <h1>{notFound ? notFound : ''}</h1>
         )
     }
 
@@ -66,7 +80,7 @@ function UserPage({ user, setUser }) {
             <h1>{profile.username}</h1>
             <p>Joined on: {profile.created}</p>
             {profile.admin ? <h1>Prompts</h1> : null}
-            {profile.admin ? profile.prompts.map((prompt) => (
+            {profile.admin ? prompts.map((prompt) => (
                 <Prompt key={prompt.id} prompt={prompt} user={user}/>
             )) : null}
             <h1>Posts</h1>

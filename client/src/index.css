@@ -8,7 +8,7 @@ body {
   padding-bottom:20px;
   padding-left:15%;
   padding-right:15%;
-  background-color: beige;
+  background-color: rgb(250, 243, 214);
 }
 
 code {
@@ -107,7 +107,6 @@ button {
 .home .prompt,
 .user-page .prompt {
   border-style:solid;
-  border-style:solid;
   border-width: 2px;
   border-color:rgb(179, 179, 179);
   border-radius:10px;
@@ -119,4 +118,18 @@ button {
 .prompt-page .prompt {
   text-align:center;
   margin:15px;
+}
+
+input {
+  padding:10px;
+  margin-top:5px;
+  border-style:solid;
+  border-width: 2px;
+  border-color:rgb(179, 179, 179);
+  border-radius:10px;
+  font-size:1em;
+}
+
+form p {
+  font-size: 0.8em;
 }

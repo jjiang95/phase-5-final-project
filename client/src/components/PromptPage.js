@@ -82,20 +82,24 @@ function PromptPage({ user }) {
 
     if (!prompt) {
         return (
-            <h1>{ notFound ? notFound : ''}</h1>
+            <h1>{notFound ? notFound : ''}</h1>
         )
     }
 
+    const orderedPosts = posts.sort((a, b) => {
+        return new Date(b.created) - new Date(a.created)
+    })
+    
     return (
         <div className='prompt-page'>
             <Prompt prompt={prompt}/>
-            { user && user.admin === true ? <button onClick={handlePromptDelete}>Delete Prompt 🗑️</button> : null}
-            { user ? <form onSubmit={handleSubmit} className="new-post">
-                <textarea name='post' rows="5" cols="200" placeholder="Add a post..." value={body} onChange={handleChange}/>
+            {user && user.admin === true ? <button onClick={handlePromptDelete}>Delete Prompt 🗑️</button> : null}
+            {user ? <form onSubmit={handleSubmit} className="new-post">
+                <textarea name='post' rows="5" cols="200" placeholder="Add a post..." value={body} onChange={handleChange} onKeyDown={handleChange}/>
                 <button type='submit'>Post ✍️</button>
                 <p style={{color:"red"}}>{error}</p>
             </form> : null}
-            {posts.map((post) => (
+            {orderedPosts.map((post) => (
                 <Post onDelete={handleDelete} key={post.id} user={user} post={post} onReplyClick={handleReplyClick}/>
             ))}
         </div>

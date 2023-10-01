@@ -98,8 +98,8 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
             {post.user ? <span onClick={() => {history.push(`/users/${post.user.username}`)}}>{post.user.username}:</span> : null}
             {edit ? (
                 <form onSubmit={handleSubmit} className='edit-post'>
-                    <textarea name='edit-post' rows="2" cols="50" value={body} onChange={handleChange}/>
-                    <button type='submit'>Post</button>
+                    <textarea name='edit-post' rows="10" cols="50" value={body} onChange={handleChange}/>
+                    <button type='submit'>Post ✍️</button>
                     <p style={{color:"red"}}>{error}</p>
                 </form>
                 ) : <p className='content'>{postContent}</p>}

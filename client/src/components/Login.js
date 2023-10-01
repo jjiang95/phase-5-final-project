@@ -49,15 +49,15 @@ function Login({ handleLogin, user }) {
         <>
             <h1>Login</h1>
             <form onSubmit={formik.handleSubmit}>
-                <p>{errorState}</p>
+                <p style={{color: "red"}}>{errorState}</p>
                 <label htmlFor='username'>Username:</label>
                 <br/>
                 <input id='username' name='username' onChange={formik.handleChange} value={formik.values.username}/>
-                <p style={{ color: "red"}}>{formik.errors.username}</p>
+                <p style={{color: "red"}}>{formik.errors.username}</p>
                 <label htmlFor='password'>Password:</label>
                 <br/>
                 <input id='password' name='password' onChange={formik.handleChange} value={formik.values.password}/>
-                <p style={{ color: "red"}}>{formik.errors.password}</p>
+                <p style={{color: "red"}}>{formik.errors.password}</p>
                 <button type='submit'>Submit</button>
             </form>
         </>
