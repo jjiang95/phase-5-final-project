@@ -1,7 +1,3 @@
-from dotenv import load_dotenv
-load_dotenv()
-
-import os
 from flask import request, make_response, request, jsonify, session
 from flask_restful import Resource
 from config import app, db, api
