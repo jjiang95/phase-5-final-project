@@ -63,11 +63,11 @@ function Signup({ handleLogin, user }) {
                 <p style={{color: "red"}}>{formik.errors.username}</p>
                 <label htmlFor='password'>Password:</label>
                 <br/>
-                <input id='password' name='password' onChange={formik.handleChange} value={formik.values.password}/>
+                <input type='password' id='password' name='password' onChange={formik.handleChange} value={formik.values.password}/>
                 <p style={{color: "red"}}>{formik.errors.password}</p>
                 <label htmlFor='confirmation'>Confirm Password:</label>
                 <br/>
-                <input id='confirmation' name='confirmation' onChange={formik.handleChange} value={formik.values.confirmation}/>
+                <input type='password' id='confirmation' name='confirmation' onChange={formik.handleChange} value={formik.values.confirmation}/>
                 <p style={{color: "red"}}>{formik.errors.confirmation}</p>
                 <button type='submit'>Submit</button>
             </form>

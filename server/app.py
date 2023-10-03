@@ -25,8 +25,7 @@ class AllPrompts(Resource):
                 db.session.add(new_prompt)
                 db.session.commit()
                 return new_prompt.to_dict(), 201
-            else:
-                return {'errors':'unprocessable entity'}, 422
+            return {'errors':'unprocessable entity'}, 422
         return {'errors':'unauthorized'}, 401
     
 class Signup(Resource):
@@ -45,12 +44,10 @@ class Signup(Resource):
             except IntegrityError as e:
                 db.session.rollback()
                 return {'errors':'username already taken'}, 400
-        else:
-            return {'errors':'unprocessable entity'}, 422
+        return {'errors':'unprocessable entity'}, 422
         
 class CheckSession(Resource):
-    def get(self):
-        
+    def get(self):        
         if session.get('user_id') == None:
             return {}, 204
         user = User.query.filter(User.id == session.get('user_id')).first()
@@ -71,8 +68,7 @@ class Logout(Resource):
         session.pop('user_id', default=None)
         return {'message':'successfully logged out'}, 204
 
-class Posts(Resource):
-    
+class Posts(Resource):  
     def post(self):
         if session.get('user_id') == None:
             return {'errors':'unauthorized'}, 401
@@ -86,16 +82,14 @@ class Posts(Resource):
             db.session.add(new_post)
             db.session.commit()
             return new_post.to_dict(), 201
-        else:
-            return {'errors':'unprocessable entity'}, 422
+        return {'errors':'unprocessable entity'}, 422
 
 class PostByID(Resource):
     def get(self, id):
         post = Post.query.filter_by(id=id).first()
         if post:
             return post.to_dict(), 200
-        else:
-            return {'errors': 'post not found'}, 404
+        return {'errors': 'post not found'}, 404
 
     def patch(self, id):
         post = Post.query.filter_by(id=id).first()
@@ -126,8 +120,8 @@ class PromptByID(Resource):
         prompt = Prompt.query.filter_by(id=id).first()
         if prompt:
             return prompt.to_dict(), 200
-        else:
-            return {'errors': 'prompt not found'}, 404
+        return {'errors': 'prompt not found'}, 404
+    
     def delete(self, id):
         prompt = Prompt.query.filter_by(id=id).first()
         user = User.query.filter_by(id=session.get('user_id')).first()
@@ -144,8 +138,8 @@ class UserByUsername(Resource):
         user = User.query.filter_by(username=username).first()
         if user:
             return user.to_dict(), 200
-        else:
-            return {'errors': 'user not found'}, 404
+        return {'errors': 'user not found'}, 404
+    
     def delete(self, username):
         user = User.query.filter_by(username=username).first()
         active_user = User.query.filter_by(id=session.get('user_id')).first()
@@ -173,6 +167,7 @@ class Favorites(Resource):
                 return post.to_dict(), 200
             return {'errors':'post or user not found'}, 404
         return {'errors':'unauthorized'}, 401
+    
     def delete(self, user_id, post_id):
         if session.get('user_id') == user_id:
             user = User.query.filter_by(id=user_id).first()

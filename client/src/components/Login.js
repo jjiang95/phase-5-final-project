@@ -56,7 +56,7 @@ function Login({ handleLogin, user }) {
                 <p style={{color: "red"}}>{formik.errors.username}</p>
                 <label htmlFor='password'>Password:</label>
                 <br/>
-                <input id='password' name='password' onChange={formik.handleChange} value={formik.values.password}/>
+                <input type='password' id='password' name='password' onChange={formik.handleChange} value={formik.values.password}/>
                 <p style={{color: "red"}}>{formik.errors.password}</p>
                 <button type='submit'>Submit</button>
             </form>
