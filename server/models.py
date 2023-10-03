@@ -45,7 +45,7 @@ class Post(db.Model, SerializerMixin):
     content = db.Column(db.String(600), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     prompt_id = db.Column(db.Integer, db.ForeignKey('prompts.id'))
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
     favorited_by_users = db.relationship('User', secondary=favorite, backref='favorite_posts')
@@ -57,6 +57,6 @@ class Prompt(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    created = db.Column(db.DateTime, default=db.func.now())
+    created = db.Column(db.DateTime, default=db.func.current_timestamp())
     
     posts = db.relationship('Post', backref='prompt')
