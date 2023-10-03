@@ -76,8 +76,8 @@ function PromptPage({ user }) {
         setBody(e.target.value)
     }
 
-    function handleReplyClick(username) {
-        setBody(`Replying to ${username}:`)
+    function handleReplyClick(username, content) {
+        setBody(`Replying to ${username}:\n//${content}//\n\n`)
     }
 
     if (!prompt) {
@@ -95,7 +95,7 @@ function PromptPage({ user }) {
             <Prompt prompt={prompt}/>
             {user && user.admin === true ? <button onClick={handlePromptDelete}>Delete Prompt 🗑️</button> : null}
             {user ? <form onSubmit={handleSubmit} className="new-post">
-                <textarea name='post' rows="5" cols="200" placeholder="Add a post..." value={body} onChange={handleChange} onKeyDown={handleChange}/>
+                <textarea name='post' rows="10" cols="200" placeholder="Add a post..." value={body} onChange={handleChange} onKeyDown={handleChange}/>
                 <button type='submit'>Post ✍️</button>
                 <p style={{color:"red"}}>{error}</p>
             </form> : null}

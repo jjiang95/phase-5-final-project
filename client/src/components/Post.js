@@ -66,7 +66,11 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
     }
 
     function handleReplyClick() {
-        onReplyClick(post.user.username)
+        window.scrollTo({
+            top:0,
+            behavior:'smooth'
+        })
+        onReplyClick(post.user.username, post.content)
     }
 
     function handleSubmit(e) {
