@@ -75,6 +75,7 @@ textarea {
   border-radius:10px;
   padding:8px;
   margin:5px;
+  word-wrap:break-word;
 }
 
 .post p:not(.content) {

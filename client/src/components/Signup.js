@@ -9,11 +9,10 @@ function Signup({ handleLogin, user }) {
     const [errorState, setErrorState] = useState('')
 
     const formSchema = yup.object().shape({
-        username: yup.string().required("Must enter a username").max(20),
-        password: yup.string().required("Must enter a password").max(20),
+        username: yup.string().required("Must enter a username").max(20).min(5),
+        password: yup.string().required("Must enter a password").max(20).min(5),
         confirmation: yup.string()
             .required("Must confirm password")
-            .max(20)
             .oneOf([yup.ref('password'), null], "Passwords must match"),
     });
 

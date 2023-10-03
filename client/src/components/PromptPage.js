@@ -55,7 +55,7 @@ function PromptPage({ user }) {
                     setError('')
                 })
             } else if (res.status === 422) {
-                setError('Post cannot be empty or >600 characters.')
+                setError('Post cannot be empty.')
             }
         });
     }

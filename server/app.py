@@ -77,7 +77,7 @@ class Posts(Resource):
         if session.get('user_id') == None:
             return {'errors':'unauthorized'}, 401
         content = request.get_json()['content']
-        if content and len(content) <= 600:
+        if content:
             new_post = Post(
             content=content,
             user_id=request.get_json()['user_id'],
@@ -100,20 +100,25 @@ class PostByID(Resource):
     def patch(self, id):
         post = Post.query.filter_by(id=id).first()
         content = request.get_json()['content']
-        if post and content and len(content) <= 600:
-            post.content = request.get_json()['content']
-            db.session.add(post)
-            db.session.commit()
-            return post.to_dict(), 200
-        else:
-            return {'errors':'unprocessable entity'}, 422
+        user = User.query.filter_by(id=session.get('user_id')).first()
+        if post and content:
+            if user and user.id == post.user_id or user.admin == True:
+                post.content = request.get_json()['content']
+                db.session.add(post)
+                db.session.commit()
+                return post.to_dict(), 200
+            return {'errors':'unauthorized'}, 401
+        return {'errors':'unprocessable entity'}, 422
 
     def delete(self, id):
         post = Post.query.filter_by(id=id).first()
+        user = User.query.filter_by(id=session.get('user_id')).first()
         if post:
-            db.session.delete(post)
-            db.session.commit()
-            return {'message':'successfully deleted'}, 204
+            if user and user.id == post.user_id or user.admin == True:
+                db.session.delete(post)
+                db.session.commit()
+                return {'message':'successfully deleted'}, 204
+            return {'errors':'unauthorized'}, 401
         return {'errors': 'post not found'}, 404
 
 class PromptByID(Resource):
@@ -125,10 +130,13 @@ class PromptByID(Resource):
             return {'errors': 'prompt not found'}, 404
     def delete(self, id):
         prompt = Prompt.query.filter_by(id=id).first()
+        user = User.query.filter_by(id=session.get('user_id')).first()
         if prompt:
-            db.session.delete(prompt)
-            db.session.commit()
-            return {'message':'successfully deleted'}, 204
+            if user and user.id == prompt.user_id or user.admin == True:    
+                db.session.delete(prompt)
+                db.session.commit()
+                return {'message':'successfully deleted'}, 204
+            return {'errors':'unauthorized'}, 401    
         return {'errors': 'prompt not found'}, 404
 
 class UserByUsername(Resource):
@@ -151,8 +159,7 @@ class UserByUsername(Resource):
                 db.session.commit()
                 session.pop('user_id', default=None)            
                 return {'message':'successfully deleted'}, 204
-            else:
-                return {'errors':'unauthorized'}, 401
+            return {'errors':'unauthorized'}, 401
         return {'errors': 'user not found'}, 404
 
 class Favorites(Resource):

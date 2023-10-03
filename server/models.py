@@ -42,7 +42,7 @@ class Post(db.Model, SerializerMixin):
 
     serialize_rules = ('-favorited_by_users', '-user.posts', '-user.prompts', '-user.favorite_posts', '-prompt')
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(600), nullable=False)
+    content = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     prompt_id = db.Column(db.Integer, db.ForeignKey('prompts.id'))
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
