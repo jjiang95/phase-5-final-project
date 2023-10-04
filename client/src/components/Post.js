@@ -9,13 +9,17 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
     const [error, setError] = useState('')
     const [favorited, setFavorited] = useState(false)
     const history = useHistory()
-
+    
     useEffect(() => {
+        function checkFavorited() {
+            return user.favorite_posts.some(item => item.id === post.id)
+        }
+        
         if (user) {
             setFavorited(checkFavorited())
         }
-    }, [user, post, checkFavorited])
-
+    }, [user, post, setFavorited])
+    
     function handleEditClick() {
         setEdit(!edit)
     }
@@ -61,9 +65,6 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
         }
     }
 
-    function checkFavorited() {
-        return user.favorite_posts.some(item => item.id === post.id)
-    }
 
     function handleReplyClick() {
         window.scrollTo({
