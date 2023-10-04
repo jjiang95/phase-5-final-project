@@ -93,7 +93,7 @@ function UserPage({ user, setUser }) {
             {favorites.map((post => (
                 <Post key={post.id} post={post} user={user} onDelete={handleDelete} onAddFavorite={handleAddFavorite} onDeleteFavorite={handleDeleteFavorite}/>
             )))}
-            {(user && user.id === profile.id) || (user && user.admin) ? <button onClick={handleDeleteAccount}>Delete Account</button> : null}
+            {(user && user.id === profile.id) || (user && user.admin) ? <button onClick={handleDeleteAccount}>Delete Account ❌</button> : null}
             <br/>
         </div>
     )

@@ -5,8 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-left:15%;
-  padding-right:15%;
+  padding-left:12%;
+  padding-right:12%;
   background-color: rgb(250, 243, 214);
 }
 
@@ -43,7 +43,7 @@ textarea {
   background-position: 15px center;
   height:150px;
   padding:5px;
-  color:white
+  color:white;
 }
 
 .navbar button {

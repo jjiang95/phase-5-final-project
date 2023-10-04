@@ -62,6 +62,8 @@ function App() {
             <h1>404 -- Not Found</h1>
           </Route>
         </Switch>
+        <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})
+}>Back to Top ⬆️</button>
       </div>
     </>
   );
