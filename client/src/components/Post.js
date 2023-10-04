@@ -14,7 +14,7 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
         if (user) {
             setFavorited(checkFavorited())
         }
-    }, [user, post])
+    }, [user, post, checkFavorited])
 
     function handleEditClick() {
         setEdit(!edit)
