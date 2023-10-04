@@ -7,7 +7,7 @@ Welcome to my final project for Flatiron Bootcamp, a fullstack web app built wit
 
 ## Overview and Features
 
-Without being logged in, you can view all prompts and posts but cannot interact with them.
+Without being logged in, you can view all prompts and posts but cannot interact with them. Each post is linked to its user via their username at the top, which will direct to their profile when clicked.
 
 If logged in as a regular (non-admin) user, you'll be able to contribute posts to prompts, edit your own posts, and favorite and reply to posts. You'll have your own profile page where your posts and favorites will be displayed.
 

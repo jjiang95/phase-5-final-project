@@ -5,10 +5,10 @@ from config import db
 if __name__ == '__main__':
     with app.app_context():
 
-        db.session.query(favorite).delete()
         Prompt.query.delete()
         Post.query.delete()
         User.query.delete()
+        db.session.query(favorite).delete()
 
         user1 = User(username='jasmine', admin=True)
         user1.password = 'qwerty'

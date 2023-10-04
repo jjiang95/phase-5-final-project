@@ -36,12 +36,12 @@ function Signup({ handleLogin, user }) {
                     res.json()
                     .then((user) => {
                         handleLogin(user)
-                        history.push('/')
+                        history.push(`/profile/${user.username}`)
                     })
                 } else if (res.status === 400) {
                     setErrorState('Username already taken')
                 } else if (res.status === 422) {
-                    setErrorState('Username/password must be >20 characters')
+                    setErrorState('Username/password must be <20 characters')
                 }
             });
         },   
