@@ -26,10 +26,10 @@ function NewPrompt({ user }) {
             if (res.status === 201) {
                 res.json()
                 .then((newPrompt) => {
-                    history.push(`/prompts/${newPrompt.id}`)
+                    history.push(`/prompt/${newPrompt.id}`)
                 })
             } else if (res.status === 422) {
-                setError('Prompt cannot be empty or >150 characters.')
+                setError('Prompt cannot be empty.')
             }
         })
     }

@@ -6,12 +6,12 @@ function Prompt({ prompt }) {
     const history = useHistory()
 
     function onPromptClick() {
-        history.push(`/prompts/${prompt.id}`)
+        history.push(`/prompt/${prompt.id}`)
     }
     
     function onCreatedClick() {
         if (prompt.user) {
-            history.push(`/users/${prompt.user.username}`)
+            history.push(`/profile/${prompt.user.username}`)
         }
     }
 

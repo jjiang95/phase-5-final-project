@@ -22,7 +22,7 @@ class AllPrompts(Resource):
         user = User.query.filter(User.id == session.get('user_id')).first()
         content = request.get_json()['content']
         if user and user.admin == True:
-            if content and len(content) <= 150:
+            if content:
                 new_prompt = Prompt(
                     content=content,
                     user_id=request.get_json()['user_id']

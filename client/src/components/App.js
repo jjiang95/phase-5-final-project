@@ -43,16 +43,16 @@ function App() {
           <Route exact path='/'>
             <Home/>          
           </Route>
-          <Route exact path='/signup'>
+          <Route exact path='/createaccount'>
             <Signup user={user} handleLogin={handleLogin}/>
           </Route>
-          <Route exact path='/login'>
+          <Route exact path='/signin'>
             <Login user={user} handleLogin={handleLogin}/>
           </Route>
-          <Route exact path='/users/:username'>
+          <Route exact path='/profile/:username'>
             <UserPage user={user} setUser={setUser}/>
           </Route>
-          <Route exact path='/prompts/:id'>
+          <Route exact path='/prompt/:id'>
             <PromptPage user={user}/>
           </Route>
           <Route exact path='/newprompt'>
@@ -62,8 +62,6 @@ function App() {
             <h1>404 -- Not Found</h1>
           </Route>
         </Switch>
-        <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})
-}>Back to Top ⬆️</button>
       </div>
     </>
   );

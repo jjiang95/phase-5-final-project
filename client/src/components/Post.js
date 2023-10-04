@@ -93,14 +93,14 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
                     setEdit(!edit)
                 })
             } else {
-                setError('Post cannot be empty or >600 characters.')
+                setError('Post cannot be empty.')
             }
         })
     }
 
     return (
         <div className='post' key={post.id}>
-            {post.user ? <span onClick={() => {history.push(`/users/${post.user.username}`)}}>{post.user.username}:</span> : null}
+            {post.user ? <span onClick={() => {history.push(`/profile/${post.user.username}`)}}>{post.user.username}:</span> : null}
             {edit ? (
                 <form onSubmit={handleSubmit} className='edit-post'>
                     <textarea name='edit-post' rows="10" cols="50" value={body} onChange={handleChange}/>
