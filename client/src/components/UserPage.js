@@ -6,12 +6,14 @@ import Prompt from './Prompt';
 function UserPage({ user, setUser }) {
     
     const history = useHistory()
-    const params = useParams();
-    const [profile, setProfile] = useState(null);
-    const [notFound, setNotFound] = useState('');
+    const params = useParams()
+    const [profile, setProfile] = useState(null)
+    const [notFound, setNotFound] = useState('')
     const [posts, setPosts] = useState([])
     const [prompts, setPrompts] = useState([])
     const [favorites, setFavorites] = useState([])
+    const [passwordChange, setPasswordChange] = useState(false)
+    const [password, setPassword] = useState('')
     
     useEffect(() => {
         fetch(`/users/${params.username}`)
@@ -56,6 +58,20 @@ function UserPage({ user, setUser }) {
         })
     }
 
+    function handleSubmit(e) {
+        e.preventDefault()
+        fetch(`/users/${profile.username}`, {
+          method:"PATCH",  
+          headers: {
+              "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+              password:password,
+          })          
+        })
+        setPasswordChange(false)
+    }
+
     function handleAddFavorite(post) {
         if (user.username === profile.username) {
             if (!favorites.some((favorite) => favorite.id === post.id)) {
@@ -93,8 +109,15 @@ function UserPage({ user, setUser }) {
             {favorites.map((post => (
                 <Post key={post.id} post={post} user={user} onDelete={handleDelete} onAddFavorite={handleAddFavorite} onDeleteFavorite={handleDeleteFavorite}/>
             )))}
+            {(user && user.id === profile.id) ? <button onClick={() => setPasswordChange(true)}>Change Password 🔒</button> : null}
             {(user && user.id === profile.id) || (user && user.admin) ? <button onClick={handleDeleteAccount}>Delete Account ❌</button> : null}
             <br/>
+            {passwordChange ? 
+                <form onSubmit={handleSubmit}>
+                    <input id='password' name='password' onChange={(e) => setPassword(e.target.value)} value={password}/>
+                    <button type='submit'>Submit</button>
+                    <button onClick={() => setPasswordChange(false)}>Cancel</button>
+                </form> : null}
         </div>
     )
 

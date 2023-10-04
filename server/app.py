@@ -160,6 +160,19 @@ class UserByUsername(Resource):
                 return {'message':'successfully deleted'}, 204
             return {'errors':'unauthorized'}, 401
         return {'errors': 'user not found'}, 404
+    
+    def patch(self, username):
+        active_user = User.query.filter_by(id=session.get('user_id')).first()
+        user = User.query.filter_by(username=username).first()
+        if user and active_user:
+            if user.id == active_user.id:
+                new_password = request.get_json()['password']
+                user.password = new_password
+                db.session.add(user)
+                db.session.commit()
+                return user.to_dict(), 200
+            return {'errors':'unauthorized'}, 401
+        return {'errors':'user not found'}, 404
 
 class Favorites(Resource):
     def post(self, user_id, post_id):
