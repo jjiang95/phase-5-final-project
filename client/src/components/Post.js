@@ -114,7 +114,7 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
             {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleEditClick}>{ edit ? 'Cancel ❌' : 'Edit ✏️'}</button> : null}
             {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleDeleteClick}>Delete 🗑️</button> : null}
             {(user && post.user) || (user && post.user === null) ? <button onClick={handleReplyClick}>Reply 📩</button> : null}
-            {(user && post.user) || (user && post.user === null) || !user ? null : <button onClick={() => {history.push(`/prompts/${post.prompt_id}`)}}>Parent Prompt 📝</button>}
+            {(user && post.user) || (user && post.user === null) || !user ? null : <button onClick={() => {history.push(`/prompt/${post.prompt_id}`)}}>Parent Prompt 📝</button>}
         </div>
     )
 }
