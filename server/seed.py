@@ -1,13 +1,10 @@
 from app import app
 from models import User, Post, Prompt, favorite
 from config import db
-from faker import Faker
-from random import randint, choice
 
 if __name__ == '__main__':
     with app.app_context():
 
-        fake = Faker()
         User.query.delete()
         Post.query.delete()
         Prompt.query.delete()
@@ -23,13 +20,6 @@ if __name__ == '__main__':
         users.append(user1)
         users.append(user2)
         
-        for _ in range(10):
-            user = User(
-                username=fake.first_name()
-            )
-            user.password = fake.word()
-            users.append(user)
-
         prompts = []
         prompt_content = [
             "In a small antique shop, a character discovers a pocket watch that appears to have the power to rewind time by five minutes. Describe their first encounter with this peculiar timepiece.",
@@ -45,23 +35,7 @@ if __name__ == '__main__':
                 user_id=1
             )
             prompts.append(prompt)
-
-        posts = []
-
-        for _ in range(50):
-            post = Post(
-                content=fake.paragraph(nb_sentences=6),
-                user_id=randint(1, 12),
-                prompt_id=randint(1, 5)
-            )
-            posts.append(post)
         
-        for user in users:
-            user.favorite_posts.append(choice(posts))
-            user.favorite_posts.append(choice(posts))
-            user.favorite_posts.append(choice(posts))
-            
         db.session.add_all(users)
-        db.session.add_all(posts)
         db.session.add_all(prompts)
         db.session.commit()

@@ -37,7 +37,7 @@ def upgrade():
     )
     op.create_table('posts',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('content', sa.String(length=600), nullable=False),
+    sa.Column('content', sa.String(), nullable=False),
     sa.Column('likes', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('prompt_id', sa.Integer(), nullable=True),
