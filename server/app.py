@@ -1,8 +1,13 @@
-from flask import request, make_response, request, jsonify, session
+from flask import request, make_response, request, render_template, session
 from flask_restful import Resource
 from config import app, db, api
 from models import User, Prompt, Post
 from sqlalchemy.exc import IntegrityError
+
+@app.route('/')
+@app.route('/<int:id>')
+def index(id=0):
+    return render_template("index.html")
 
 class AllPrompts(Resource):
     def get(self):
