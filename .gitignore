@@ -13,4 +13,3 @@
 .venv
 *.db
 */*.db
-server/migrations/versions/*.py
