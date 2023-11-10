@@ -14,7 +14,7 @@ if __name__ == '__main__':
         user1.password = 'qwerty'
 
         user2 = User(username='john123')
-        user2.password = 'asdf'
+        user2.password = 'asdfgh'
 
         users = []
         users.append(user1)

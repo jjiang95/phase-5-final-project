@@ -1,8 +1,12 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from flask import request, make_response, request, render_template, session
 from flask_restful import Resource
 from config import app, db, api
 from models import User, Prompt, Post
 from sqlalchemy.exc import IntegrityError
+import os
 
 @app.route('/')
 @app.route('/<int:id>')
@@ -197,6 +201,19 @@ class Favorites(Resource):
             return {'errors':'post or user not found'}, 404
         return {'errors':'unauthorized'}, 401
 
+class AdminToggle(Resource):
+    def patch(self, username, admin_code):
+        active_user = User.query.filter_by(id=session.get('user_id')).first()
+        user = User.query.filter_by(username=username).first()
+        if user and active_user:
+            if (user.id == active_user.id or active_user.admin == True) and (admin_code == os.getenv('ADMIN_CODE')):
+                user.admin = not user.admin 
+                db.session.add(user)
+                db.session.commit()
+                return user.to_dict(), 200
+            return {'errors':'unauthorized'}, 401
+        return {'errors':'user not found'}, 404
+
 api.add_resource(CheckSession, '/check_session')
 api.add_resource(AllPrompts, '/prompts/all')
 api.add_resource(Signup, '/signup')
@@ -207,6 +224,7 @@ api.add_resource(PostByID, '/posts/<int:id>')
 api.add_resource(PromptByID, '/prompts/<int:id>')
 api.add_resource(UserByUsername, '/users/<string:username>')
 api.add_resource(Favorites, '/favorites/<int:user_id>/<int:post_id>')
-    
+api.add_resource(AdminToggle, '/admintoggle/<string:username>/<string:admin_code>')
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

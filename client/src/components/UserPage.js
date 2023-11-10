@@ -15,7 +15,10 @@ function UserPage({ user, setUser }) {
     const [passwordChange, setPasswordChange] = useState(false)
     const [password, setPassword] = useState('')
     const [validPassword, setValidPassword] = useState(true)
-    
+    const [adminChange, setAdminChange] = useState(false)
+    const [adminCode, setAdminCode] = useState('')
+    const [validCode, setValidCode] = useState(true)
+
     useEffect(() => {
         fetch(`/users/${params.username}`)
         .then(res => {
@@ -80,6 +83,22 @@ function UserPage({ user, setUser }) {
         setPasswordChange(false)
     }
 
+    function handleAdminChange(e) {
+        e.preventDefault()
+        fetch(`/admintoggle/${profile.username}/${adminCode}`, {
+            method:"PATCH"  
+        })
+        .then(res => {
+            if (res.status === 401) {
+                setValidCode(false)
+            } else if (res.status === 200) {
+                setValidCode(true)
+                setAdminChange(false)
+                setAdminCode('')
+            }
+        })      
+    }
+
     function handleAddFavorite(post) {
         if (user.username === profile.username) {
             if (!favorites.some((favorite) => favorite.id === post.id)) {
@@ -105,6 +124,13 @@ function UserPage({ user, setUser }) {
         <div className='user-page'>
             <h1>{profile.username} {profile.admin ? `(Admin)` : null}</h1>
             <p>Joined on: {profile.created}</p>
+            {((user && user.id === profile.id) || (user && user.admin === true)) ? <button onClick={() => setAdminChange(!adminChange)}>Toggle Admin 🧑‍⚖️</button> : null}
+            {adminChange ? 
+                <form onSubmit={handleAdminChange}>
+                    {validCode ? null : <p style={{color:"red"}}>Invalid code</p>}
+                    <input id='admin-code' name='admin-code' placeholder='ADMIN CODE' onChange={(e) => setAdminCode(e.target.value)} value={adminCode}/>
+                    <button type='submit'>Submit</button>
+                </form> : null}
             {profile.admin ? <h1>Prompts</h1> : null}
             {profile.admin ? prompts.map((prompt) => (
                 <Prompt key={prompt.id} prompt={prompt} user={user}/>
@@ -117,15 +143,14 @@ function UserPage({ user, setUser }) {
             {favorites.map((post => (
                 <Post key={post.id} post={post} user={user} onDelete={handleDelete} onAddFavorite={handleAddFavorite} onDeleteFavorite={handleDeleteFavorite}/>
             )))}
-            {(user && user.id === profile.id) ? <button onClick={() => setPasswordChange(true)}>Change Password 🔒</button> : null}
+            {(user && user.id === profile.id) ? <button onClick={() => setPasswordChange(!passwordChange)}>Change Password 🔒</button> : null}
             {(user && user.id === profile.id) || (user && user.admin) ? <button onClick={handleDeleteAccount}>Delete Account ❌</button> : null}
             <br/>
             {passwordChange ? 
                 <form onSubmit={handleSubmit}>
-                    {validPassword? null : <p style={{color:"red"}}>Password must be between 5 and 20 characters</p>}
+                    {validPassword ? null : <p style={{color:"red"}}>Password must be between 5 and 20 characters</p>}
                     <input id='password' name='password' onChange={(e) => setPassword(e.target.value)} value={password}/>
                     <button type='submit'>Submit</button>
-                    <button onClick={() => setPasswordChange(false)}>Cancel</button>
                 </form> : null}
         </div>
     )
