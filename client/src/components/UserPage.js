@@ -14,6 +14,7 @@ function UserPage({ user, setUser }) {
     const [favorites, setFavorites] = useState([])
     const [passwordChange, setPasswordChange] = useState(false)
     const [password, setPassword] = useState('')
+    const [validPassword, setValidPassword] = useState(true)
     
     useEffect(() => {
         fetch(`/users/${params.username}`)
@@ -60,6 +61,11 @@ function UserPage({ user, setUser }) {
 
     function handleSubmit(e) {
         e.preventDefault()
+        if ((password.length < 5) || (password.length > 20)) {
+            setValidPassword(false)
+            return
+        }
+
         fetch(`/users/${profile.username}`, {
           method:"PATCH",  
           headers: {
@@ -69,6 +75,8 @@ function UserPage({ user, setUser }) {
               password:password,
           })          
         })
+        setValidPassword(true)
+        setPassword('')
         setPasswordChange(false)
     }
 
@@ -114,6 +122,7 @@ function UserPage({ user, setUser }) {
             <br/>
             {passwordChange ? 
                 <form onSubmit={handleSubmit}>
+                    {validPassword? null : <p style={{color:"red"}}>Password must be between 5 and 20 characters</p>}
                     <input id='password' name='password' onChange={(e) => setPassword(e.target.value)} value={password}/>
                     <button type='submit'>Submit</button>
                     <button onClick={() => setPasswordChange(false)}>Cancel</button>
