@@ -124,7 +124,7 @@ function UserPage({ user, setUser }) {
         <div className='user-page'>
             <h1>{profile.username} {profile.admin ? `(Admin)` : null}</h1>
             <p>Joined on: {profile.created}</p>
-            {((user && user.id === profile.id) || (user && user.admin === true)) ? <button onClick={() => setAdminChange(!adminChange)}>Toggle Admin 🧑‍⚖️</button> : null}
+            {((user && user.id === profile.id) || (user && user.admin === true)) ? <button onClick={() => setAdminChange(!adminChange)}>Toggle Admin</button> : null}
             {adminChange ? 
                 <form onSubmit={handleAdminChange}>
                     {validCode ? null : <p style={{color:"red"}}>Invalid code</p>}
@@ -143,8 +143,8 @@ function UserPage({ user, setUser }) {
             {favorites.map((post => (
                 <Post key={post.id} post={post} user={user} onDelete={handleDelete} onAddFavorite={handleAddFavorite} onDeleteFavorite={handleDeleteFavorite}/>
             )))}
-            {(user && user.id === profile.id) ? <button onClick={() => setPasswordChange(!passwordChange)}>Change Password 🔒</button> : null}
-            {(user && user.id === profile.id) || (user && user.admin) ? <button onClick={handleDeleteAccount}>Delete Account ❌</button> : null}
+            {(user && user.id === profile.id) ? <button onClick={() => setPasswordChange(!passwordChange)}>Change Password</button> : null}
+            {(user && user.id === profile.id) || (user && user.admin) ? <button onClick={handleDeleteAccount}>Delete Account</button> : null}
             <br/>
             {passwordChange ? 
                 <form onSubmit={handleSubmit}>

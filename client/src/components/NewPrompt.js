@@ -44,7 +44,7 @@ function NewPrompt({ user }) {
             <h1>Create New Prompt</h1>
             <form onSubmit={handleSubmit} className="new-post">
                 <textarea name='post' rows="5" cols="200" placeholder="Add a post..." value={body} onChange={handleChange}/>
-                <button type='submit'>Post ✍️</button>
+                <button type='submit'>Post</button>
                 <p style={{color:"red"}}>{error}</p>
             </form>
         </>

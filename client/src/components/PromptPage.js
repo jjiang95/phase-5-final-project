@@ -93,10 +93,10 @@ function PromptPage({ user }) {
     return (
         <div className='prompt-page'>
             <Prompt prompt={prompt}/>
-            {user && user.admin === true ? <button onClick={handlePromptDelete}>Delete Prompt 🗑️</button> : null}
+            {user && user.admin === true ? <button onClick={handlePromptDelete}>🗑</button> : null}
             {user ? <form onSubmit={handleSubmit} className="new-post">
                 <textarea name='post' rows="10" cols="200" placeholder="Add a post..." value={body} onChange={handleChange} onKeyDown={handleChange}/>
-                <button type='submit'>Post ✍️</button>
+                <button type='submit'>Post</button>
                 <p style={{color:"red"}}>{error}</p>
             </form> : null}
             {orderedPosts.map((post) => (

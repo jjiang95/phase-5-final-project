@@ -104,17 +104,17 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
             {edit ? (
                 <form onSubmit={handleSubmit} className='edit-post'>
                     <textarea name='edit-post' rows="10" cols="50" value={body} onChange={handleChange}/>
-                    <button type='submit'>Post ✍️</button>
+                    <button type='submit'>Post</button>
                     <p style={{color:"red"}}>{error}</p>
                 </form>
                 ) : <p className='content'>{postContent}</p>}
             <p>Posted on: {post.created}</p>
             {post.updated_at ? <p>Edited on: {post.updated_at}</p> : null}
-            {user ? <button onClick={handleFavoriteClick}>{favorited ? `Favorited ✔️` : `Favorite 💗`}</button> : null}
-            {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleEditClick}>{ edit ? 'Cancel ❌' : 'Edit ✏️'}</button> : null}
-            {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleDeleteClick}>Delete 🗑️</button> : null}
-            {(user && post.user) || (user && post.user === null) ? <button onClick={handleReplyClick}>Reply 📩</button> : null}
-            {(user && post.user) || (user && post.user === null) || !user ? null : <button onClick={() => {history.push(`/prompt/${post.prompt_id}`)}}>Parent Prompt 📝</button>}
+            {user ? <button onClick={handleFavoriteClick}>{favorited ? `♥` : `♡`}</button> : null}
+            {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleEditClick}>{ edit ? 'Cancel' : '✎'}</button> : null}
+            {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleDeleteClick}>🗑</button> : null}
+            {(user && post.user) || (user && post.user === null) ? <button onClick={handleReplyClick}>↩</button> : null}
+            {(user && post.user) || (user && post.user === null) || !user ? null : <button onClick={() => {history.push(`/prompt/${post.prompt_id}`)}}>Parent Prompt</button>}
         </div>
     )
 }
