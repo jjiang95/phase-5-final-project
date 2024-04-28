@@ -76,8 +76,12 @@ function PromptPage({ user }) {
         setBody(e.target.value)
     }
 
-    function handleReplyClick(username, content) {
-        setBody(`Replying to ${username}:\n//${content}//\n\n`)
+    function handleReplyClick(content, username=null) {
+        if (username) {
+            setBody(`Replying to ${username}:\n//${content}//\n\n`)
+        } else {
+            setBody(`Replying to [deleted account]:\n//${content}//\n\n`)
+        }
     }
 
     if (!prompt) {

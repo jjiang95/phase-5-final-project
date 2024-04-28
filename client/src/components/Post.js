@@ -71,7 +71,11 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
             top:0,
             behavior:'smooth'
         })
-        onReplyClick(post.user.username, post.content)
+        if (post.user) {
+            onReplyClick(post.content, post.user.username)
+        } else {
+            onReplyClick(post.content)
+        }
     }
 
     function handleSubmit(e) {
@@ -114,7 +118,7 @@ function Post({ post, user, onDelete, onReplyClick=null, onAddFavorite=null, onD
             {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleEditClick}>{ edit ? 'Cancel' : '✎'}</button> : null}
             {(user && user.id === post.user_id) || (user && user.admin === true) ? <button onClick={handleDeleteClick}>🗑</button> : null}
             {(user && post.user) || (user && post.user === null) ? <button onClick={handleReplyClick}>↩</button> : null}
-            {(user && post.user) || (user && post.user === null) || !user ? null : <button onClick={() => {history.push(`/prompt/${post.prompt_id}`)}}>Parent Prompt</button>}
+            {(user && post.user) || (user && post.user === null) || !user ? null : <button onClick={() => {history.push(`/prompt/${post.prompt_id}`)}}>⬅</button>}
         </div>
     )
 }
